@@ -105,10 +105,6 @@ export default function HeadmasterPortalPage() {
               Sign in
             </button>
           </form>
-          <p className="mt-4 text-xs text-clay">
-            Demo: <strong>{config.headmasterUser}</strong> /{" "}
-            <strong>{config.headmasterPassword}</strong>
-          </p>
         </div>
       </div>
     );

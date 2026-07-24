@@ -45,7 +45,7 @@ export default function PortalHubPage() {
           pupils.
         </p>
 
-        <div className="mt-10 grid gap-5 md:grid-cols-2 lg:grid-cols-4">
+        <div className="mt-10 grid gap-5 md:grid-cols-3">
           {portals.map((p) => (
             <Link key={p.href} href={p.href} className={portalCardClass}>
               <p className="text-xs font-semibold uppercase tracking-[0.18em] text-cyan">
@@ -55,17 +55,6 @@ export default function PortalHubPage() {
               <p className="mt-2 text-sm text-clay">{p.text}</p>
             </Link>
           ))}
-          <Link href="/setup" className={portalCardClass}>
-            <p className="text-xs font-semibold uppercase tracking-[0.18em] text-cyan">
-              Template
-            </p>
-            <h2 className="font-display mt-3 text-2xl text-ink">
-              School setup
-            </h2>
-            <p className="mt-2 text-sm text-clay">
-              Upload a school’s details (CSV / Excel / JSON) when you have them.
-            </p>
-          </Link>
         </div>
 
         <p className="mt-8 text-sm text-clay">

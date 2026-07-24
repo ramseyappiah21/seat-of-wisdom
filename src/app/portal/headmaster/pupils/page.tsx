@@ -78,7 +78,7 @@ export default function HeadmasterAllPupilsPage() {
 
         <PageHeader
           title="All pupils"
-          description="Every pupil across all classes. Sample Primary 5 names (Ama Mensah, Kofi Asante, and others) appear here and under Classes → Primary 5."
+          description="Every pupil across all classes."
           action={
             <button
               type="button"

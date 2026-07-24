@@ -4,16 +4,14 @@ Public website plus results portals. Customise branding and content for **any sc
 
 ## Customise for another school
 
-**Easiest path — School setup dashboard**
+**Easiest path — School setup** (developer only: open `/setup` directly)
 
-1. Open [`/setup`](http://localhost:3000/setup) (password = headmaster password).
+1. Open `/setup` (password = headmaster password).
 2. Download the **blank CSV template**, fill in the school’s details.
 3. **Upload** the filled CSV (or Excel / `school.json`).
 4. Download **school.json** → replace `public/school.json` → redeploy.
 
-Optional: Headmaster → **Site settings** for fine-tuning copy after upload.
-
-Demo headmaster (defaults): `headmaster` / `SOW-HEAD-2026`
+Optional: Headmaster → **Site settings** for fine-tuning copy after upload (if enabled).
 
 ## Portals (`/portal`)
 
@@ -29,13 +27,7 @@ Demo headmaster (defaults): `headmaster` / `SOW-HEAD-2026`
 
 ### Headmaster portal
 - Manage classes, pupils, teachers, passwords
-- **Site settings** — school name, brand colours, website copy
-
-### Demo logins (sample data)
-| Role | Name | Password | Where |
-|------|------|----------|-------|
-| Pupil | Ama Mensah | A3K9MP | Primary 5 |
-| Teacher | Mary Addo | K7M2XP | Teacher portal |
+- **Site settings** — school name, brand colours, website copy (optional)
 
 Pupil and teacher records live in the browser (`localStorage`). Site branding lives in `public/school.json` (plus optional browser preview).
 

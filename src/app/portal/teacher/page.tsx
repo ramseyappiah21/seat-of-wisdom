@@ -549,7 +549,7 @@ export default function TeacherPortalPage() {
                 className={inputClass}
                 value={name}
                 onChange={(e) => setName(e.target.value)}
-                placeholder="e.g. Mary Addo"
+                placeholder="Your full name"
                 required
               />
             </Field>
@@ -567,9 +567,6 @@ export default function TeacherPortalPage() {
               Enter teacher portal
             </button>
           </form>
-          <p className="mt-4 text-xs text-clay">
-            Demo: <strong>Mary Addo</strong> / <strong>K7M2XP</strong>
-          </p>
         </div>
       </div>
     );

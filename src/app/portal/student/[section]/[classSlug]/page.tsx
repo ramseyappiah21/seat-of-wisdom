@@ -358,7 +358,7 @@ export default function StudentClassPortalPage() {
               className={inputClass}
               value={name}
               onChange={(e) => setName(e.target.value)}
-              placeholder="e.g. Ama Mensah"
+              placeholder="Your full name"
               required
             />
           </Field>
@@ -378,8 +378,8 @@ export default function StudentClassPortalPage() {
         </form>
 
         <p className="mt-4 text-xs text-clay">
-          Use your full name and password. Sample: <strong>Ama Mensah</strong> /{" "}
-          <strong>A3K9MP</strong> in Primary 5. You can change it after signing in.
+          Use the full name and password issued by the school. You can change
+          your password after signing in.
         </p>
         <button
           type="button"
