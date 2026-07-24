@@ -528,18 +528,21 @@ export default function TeacherPortalPage() {
   if (!teacher) {
     return (
       <div className="min-h-[70vh] bg-mist">
-        <div className="mx-auto max-w-md px-4 py-14 sm:px-6">
+        <div className="mx-auto max-w-5xl px-4 py-14 sm:px-6 lg:px-8">
           <Link href="/portal" className="text-sm font-semibold text-navy hover:underline">
             ← All portals
           </Link>
-          <h1 className="font-display mt-4 text-3xl text-ink">Teacher portal</h1>
-          <p className="mt-2 text-sm text-clay">
+          <p className="mt-6 text-xs font-semibold uppercase tracking-[0.22em] text-cyan">
+            Staff
+          </p>
+          <h1 className="font-display mt-2 text-4xl text-ink">Teacher portal</h1>
+          <p className="mt-3 max-w-2xl text-clay">
             Enter subject results for the classes you teach, and view your class
             portal if you are a class teacher.
           </p>
           <form
             onSubmit={login}
-            className="mt-8 space-y-4 rounded-2xl border border-[var(--line)] bg-white p-6 shadow-[var(--shadow)]"
+            className="mt-10 max-w-md space-y-4 rounded-2xl border border-[var(--line)] bg-white p-6 shadow-[var(--shadow)]"
           >
             <Field label="Full name">
               <input

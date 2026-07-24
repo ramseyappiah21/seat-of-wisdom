@@ -1,6 +1,30 @@
 import Link from "next/link";
 import { SCHOOL } from "@/lib/types";
 
+const portalCardClass =
+  "rounded-2xl border border-[var(--line)] bg-white p-6 shadow-[var(--shadow)] transition hover:-translate-y-1 hover:shadow-lg";
+
+const portals = [
+  {
+    href: "/portal/student",
+    eyebrow: "Pupils",
+    title: "Student portal",
+    text: "Choose Primary or JHS, pick your class, then log in with your full name and password.",
+  },
+  {
+    href: "/portal/teacher",
+    eyebrow: "Staff",
+    title: "Teacher portal",
+    text: "Enter your subject results for a class, or open your class portal if you are a class teacher.",
+  },
+  {
+    href: "/portal/headmaster",
+    eyebrow: "Admin",
+    title: "Headmaster",
+    text: "See all pupils, assign each teacher to a class, and issue passwords.",
+  },
+] as const;
+
 export default function PortalHubPage() {
   return (
     <div className="min-h-[70vh] bg-mist">
@@ -18,47 +42,15 @@ export default function PortalHubPage() {
         </p>
 
         <div className="mt-10 grid gap-5 md:grid-cols-3">
-          <Link
-            href="/portal/student"
-            className="rounded-2xl border border-[var(--line)] bg-navy p-6 text-paper shadow-[var(--shadow)] transition hover:-translate-y-1 hover:shadow-lg"
-          >
-            <p className="text-xs font-semibold uppercase tracking-[0.18em] text-cyan-soft">
-              Pupils
-            </p>
-            <h2 className="font-display mt-3 text-2xl">Student portal</h2>
-            <p className="mt-2 text-sm text-sky">
-              Choose Primary or JHS, pick your class, then log in with your full
-              name and password.
-            </p>
-          </Link>
-
-          <Link
-            href="/portal/teacher"
-            className="rounded-2xl border border-[var(--line)] bg-white/90 p-6 shadow-[var(--shadow)] transition hover:-translate-y-1 hover:shadow-lg"
-          >
-            <p className="text-xs font-semibold uppercase tracking-[0.18em] text-cyan">
-              Staff
-            </p>
-            <h2 className="font-display mt-3 text-2xl text-ink">Teacher portal</h2>
-            <p className="mt-2 text-sm text-clay">
-              Enter your subject results for a class, or open your class portal
-              if you are a class teacher.
-            </p>
-          </Link>
-
-          <Link
-            href="/portal/headmaster"
-            className="rounded-2xl border border-[var(--line)] bg-white/90 p-6 shadow-[var(--shadow)] transition hover:-translate-y-1 hover:shadow-lg"
-          >
-            <p className="text-xs font-semibold uppercase tracking-[0.18em] text-cyan">
-              Admin
-            </p>
-            <h2 className="font-display mt-3 text-2xl text-ink">Headmaster</h2>
-            <p className="mt-2 text-sm text-clay">
-              See all pupils, assign each teacher to a class, and issue
-              passwords.
-            </p>
-          </Link>
+          {portals.map((p) => (
+            <Link key={p.href} href={p.href} className={portalCardClass}>
+              <p className="text-xs font-semibold uppercase tracking-[0.18em] text-cyan">
+                {p.eyebrow}
+              </p>
+              <h2 className="font-display mt-3 text-2xl text-ink">{p.title}</h2>
+              <p className="mt-2 text-sm text-clay">{p.text}</p>
+            </Link>
+          ))}
         </div>
 
         <p className="mt-8 text-sm text-clay">

@@ -63,17 +63,20 @@ export default function HeadmasterPortalPage() {
   if (!authed) {
     return (
       <div className="min-h-[70vh] bg-mist">
-        <div className="mx-auto max-w-md px-4 py-14 sm:px-6">
+        <div className="mx-auto max-w-5xl px-4 py-14 sm:px-6 lg:px-8">
           <Link href="/portal" className="text-sm font-semibold text-navy hover:underline">
             ← All portals
           </Link>
-          <h1 className="font-display mt-4 text-3xl text-ink">Headmaster portal</h1>
-          <p className="mt-2 text-sm text-clay">
+          <p className="mt-6 text-xs font-semibold uppercase tracking-[0.22em] text-cyan">
+            Admin
+          </p>
+          <h1 className="font-display mt-2 text-4xl text-ink">Headmaster portal</h1>
+          <p className="mt-3 max-w-2xl text-clay">
             Open classes, manage all pupils, and assign teachers.
           </p>
           <form
             onSubmit={login}
-            className="mt-8 space-y-4 rounded-2xl border border-[var(--line)] bg-white p-6 shadow-[var(--shadow)]"
+            className="mt-10 max-w-md space-y-4 rounded-2xl border border-[var(--line)] bg-white p-6 shadow-[var(--shadow)]"
           >
             <Field label="Username">
               <input
@@ -135,7 +138,7 @@ export default function HeadmasterPortalPage() {
                 <Link
                   key={level}
                   href={`/portal/headmaster/class/${classToSlug(level)}`}
-                  className="rounded-xl border border-[var(--line)] bg-mist/50 px-3 py-4 text-left text-ink transition hover:border-cyan hover:bg-sky/40"
+              className="rounded-xl border border-[var(--line)] bg-white px-3 py-4 text-left text-ink shadow-sm transition hover:-translate-y-0.5 hover:border-cyan hover:shadow-md"
                 >
                   <p className="font-display text-lg">{level}</p>
                   <p className="mt-1 text-xs text-clay">

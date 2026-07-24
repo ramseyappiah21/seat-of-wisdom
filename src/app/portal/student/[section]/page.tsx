@@ -39,7 +39,7 @@ export default async function StudentSectionPage({
             <Link
               key={level}
               href={`/portal/student/${section}/${classToSlug(level)}`}
-              className="rounded-xl border border-[var(--line)] bg-white/90 px-5 py-6 text-center font-display text-xl text-ink shadow-sm transition hover:-translate-y-0.5 hover:border-cyan hover:shadow-md"
+              className="rounded-xl border border-[var(--line)] bg-white px-5 py-6 text-center font-display text-xl text-ink shadow-sm transition hover:-translate-y-0.5 hover:border-cyan hover:shadow-md"
             >
               {level}
             </Link>
