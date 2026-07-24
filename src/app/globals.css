@@ -9,7 +9,8 @@
   --cyan: #00adef;
   --cyan-soft: #7dd8f7;
   --sky: #d6ebf8;
-  --mist: #eef6fc;
+  /* Shared page canvas — same on Home, About, and every portal */
+  --mist: #e8f1f8;
   --paper: #f7fbfe;
   --clay: #5a6b7a;
   --danger: #b42318;

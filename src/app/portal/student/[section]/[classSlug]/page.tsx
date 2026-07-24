@@ -156,7 +156,7 @@ export default function StudentClassPortalPage() {
 
   if (student) {
     return (
-      <div className="min-h-[70vh] print:min-h-0 print:bg-white">
+      <div className="min-h-[70vh] bg-mist print:min-h-0 print:bg-white">
         <div className="mx-auto max-w-4xl px-4 py-10 sm:px-6 lg:px-8 print:max-w-none print:px-0 print:py-0">
           <div className="flex flex-wrap items-center justify-between gap-3 print:hidden">
             <div>
@@ -338,7 +338,7 @@ export default function StudentClassPortalPage() {
   }
 
   return (
-    <div className="min-h-[70vh]">
+    <div className="min-h-[70vh] bg-mist">
       <div className="mx-auto max-w-md px-4 py-14 sm:px-6">
         <Link
           href={`/portal/student/${section}`}
