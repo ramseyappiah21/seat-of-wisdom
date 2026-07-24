@@ -48,6 +48,11 @@ export default function TeacherPortalPage() {
   const [term, setTerm] = useState<Term>("First Term");
   const [session, setSession] = useState("2025/2026");
   const [importText, setImportText] = useState("");
+  const [importStatus, setImportStatus] = useState<{
+    kind: "reading" | "ok" | "error";
+    fileName: string;
+    detail: string;
+  } | null>(null);
   const [scores, setScores] = useState<Record<string, { ca: string; exam: string }>>({});
   const [sessionReady, setSessionReady] = useState(false);
 
@@ -276,10 +281,17 @@ export default function TeacherPortalPage() {
 
   async function handleFile(file: File | null) {
     if (!file || !classLevel || !subject) return;
+    setImportStatus({
+      kind: "reading",
+      fileName: file.name,
+      detail: "Reading file…",
+    });
     try {
       const rawRows = await readSpreadsheetRows(file);
       if (!rawRows.length) {
-        setMessage(`No rows found in ${file.name}.`);
+        const detail = `No rows found in ${file.name}.`;
+        setImportStatus({ kind: "error", fileName: file.name, detail });
+        setMessage(detail);
         return;
       }
       const parsed = parseImportRows(rawRows);
@@ -297,18 +309,26 @@ export default function TeacherPortalPage() {
                 };
               });
         if (!pupils.length) {
-          setMessage(`No pupil names found in ${file.name}.`);
+          const detail = `No pupil names found in ${file.name}.`;
+          setImportStatus({ kind: "error", fileName: file.name, detail });
+          setMessage(detail);
           return;
         }
         const created = importClassNames(classLevel, pupils);
-        setMessage(
-          `From ${file.name}: imported ${created} pupil(s) into ${classLevel} (${pupils.length} found under Pupil).`
-        );
+        const detail = `Imported ${created} pupil(s) into ${classLevel} (${pupils.length} found under Pupil).`;
+        setImportStatus({
+          kind: created > 0 ? "ok" : "error",
+          fileName: file.name,
+          detail,
+        });
+        setMessage(`From ${file.name}: ${detail}`);
         return;
       }
 
       if (!parsed.results.length) {
-        setMessage(`No score rows found in ${file.name}.`);
+        const detail = `No score rows found in ${file.name}.`;
+        setImportStatus({ kind: "error", fileName: file.name, detail });
+        setMessage(detail);
         return;
       }
 
@@ -326,14 +346,14 @@ export default function TeacherPortalPage() {
         teacher?.id,
         false
       );
-      setMessage(
-        `From ${file.name}: saved ${resultsSaved} ${subject} result(s) into ${classLevel}. Created ${studentsCreated} pupil(s).`
-      );
+      const detail = `Saved ${resultsSaved} ${subject} result(s) into ${classLevel}. Created ${studentsCreated} pupil(s).`;
+      setImportStatus({ kind: "ok", fileName: file.name, detail });
+      setMessage(`From ${file.name}: ${detail}`);
     } catch (err) {
-      const detail = err instanceof Error ? err.message : "Unknown error";
-      setMessage(
-        `Could not read ${file.name}. ${detail} Try .xlsx or save as CSV.`
-      );
+      const msg = err instanceof Error ? err.message : "Unknown error";
+      const detail = `Could not read ${file.name}. ${msg} Try .xlsx or save as CSV.`;
+      setImportStatus({ kind: "error", fileName: file.name, detail });
+      setMessage(detail);
     }
   }
 
@@ -819,6 +839,35 @@ export default function TeacherPortalPage() {
                       e.target.value = "";
                     }}
                   />
+                  {importStatus ? (
+                    <div
+                      role="status"
+                      className={`mt-3 rounded-xl border px-4 py-3 text-sm ${
+                        importStatus.kind === "ok"
+                          ? "border-cyan/40 bg-sky/50 text-navy"
+                          : importStatus.kind === "reading"
+                            ? "border-[var(--line)] bg-mist/60 text-clay"
+                            : "border-red-200 bg-red-50 text-red-900"
+                      }`}
+                    >
+                      <p className="font-semibold">
+                        {importStatus.kind === "reading"
+                          ? "Importing…"
+                          : importStatus.kind === "ok"
+                            ? "File imported"
+                            : "Import issue"}
+                      </p>
+                      <p className="mt-0.5 font-mono text-xs break-all">
+                        {importStatus.fileName}
+                      </p>
+                      <p className="mt-1.5">{importStatus.detail}</p>
+                    </div>
+                  ) : (
+                    <p className="mt-2 text-xs text-clay">
+                      Choose a file to import — you’ll see the filename and result
+                      here.
+                    </p>
+                  )}
                   <textarea
                     className={`${inputClass} mt-4 min-h-[100px] font-mono text-sm`}
                     value={importText}

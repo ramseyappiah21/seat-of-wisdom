@@ -41,6 +41,11 @@ export default function HeadmasterClassPupilsPage() {
   const [query, setQuery] = useState("");
   const [flash, setFlash] = useState("");
   const [importText, setImportText] = useState("");
+  const [importStatus, setImportStatus] = useState<{
+    kind: "reading" | "ok" | "error";
+    fileName: string;
+    detail: string;
+  } | null>(null);
   const [addTeacherId, setAddTeacherId] = useState("");
   const [addSubject, setAddSubject] = useState<string>(SUBJECTS[0]);
   const [editing, setEditing] = useState<Student | null>(null);
@@ -149,10 +154,17 @@ export default function HeadmasterClassPupilsPage() {
 
   async function handleExcelImport(file: File | null) {
     if (!file || !classLevel) return;
+    setImportStatus({
+      kind: "reading",
+      fileName: file.name,
+      detail: "Reading file…",
+    });
     try {
       const rawRows = await readSpreadsheetRows(file);
       if (!rawRows.length) {
-        setFlash(`No rows found in ${file.name}.`);
+        const detail = `No rows found in ${file.name}.`;
+        setImportStatus({ kind: "error", fileName: file.name, detail });
+        setFlash(detail);
         return;
       }
       const parsed = parseImportRows(rawRows);
@@ -168,25 +180,34 @@ export default function HeadmasterClassPupilsPage() {
               };
             });
       if (!list.length) {
-        setFlash(
-          `No pupil names found in ${file.name}. Need Full Name / Name, or Surname + Other Name (optional Gender / Sex).`
-        );
+        const detail = `No pupil names found in ${file.name}. Need Full Name / Name, or Surname + Other Name (optional Gender / Sex).`;
+        setImportStatus({ kind: "error", fileName: file.name, detail });
+        setFlash(detail);
         return;
       }
       const created = importClassNames(classLevel, list);
       const skipped = list.length - created;
-      setFlash(
+      const detail =
         created > 0
-          ? `Imported ${created} pupil(s) into ${classLevel} from ${file.name}${
+          ? `Imported ${created} pupil(s) into ${classLevel}${
               skipped ? ` (${skipped} already in class skipped)` : ""
             }.`
-          : `No new pupils added — all ${list.length} name(s) are already in ${classLevel}.`
+          : `No new pupils added — all ${list.length} name(s) are already in ${classLevel}.`;
+      setImportStatus({
+        kind: created > 0 ? "ok" : "error",
+        fileName: file.name,
+        detail,
+      });
+      setFlash(
+        created > 0
+          ? `${detail} File: ${file.name}`
+          : detail
       );
     } catch (err) {
-      const detail = err instanceof Error ? err.message : "Unknown error";
-      setFlash(
-        `Could not read ${file.name}. ${detail} Try .xlsx or save as CSV.`
-      );
+      const msg = err instanceof Error ? err.message : "Unknown error";
+      const detail = `Could not read ${file.name}. ${msg} Try .xlsx or save as CSV.`;
+      setImportStatus({ kind: "error", fileName: file.name, detail });
+      setFlash(detail);
     }
   }
 
@@ -218,13 +239,18 @@ export default function HeadmasterClassPupilsPage() {
     const created = importClassNames(classLevel, names);
     const skipped = names.length - created;
     setImportText("");
-    setFlash(
+    const detail =
       created > 0
         ? `Imported ${created} new pupil(s) into ${classLevel}${
             skipped ? ` (${skipped} skipped — invalid or already in class)` : ""
           }.`
-        : `No new pupils added — those names are invalid or already in ${classLevel}.`
-    );
+        : `No new pupils added — those names are invalid or already in ${classLevel}.`;
+    setImportStatus({
+      kind: created > 0 ? "ok" : "error",
+      fileName: "Pasted names",
+      detail,
+    });
+    setFlash(detail);
   }
 
   if (!ready || !authed) {
@@ -466,6 +492,34 @@ export default function HeadmasterClassPupilsPage() {
                 e.target.value = "";
               }}
             />
+            {importStatus ? (
+              <div
+                role="status"
+                className={`mt-3 rounded-xl border px-4 py-3 text-sm ${
+                  importStatus.kind === "ok"
+                    ? "border-cyan/40 bg-sky/50 text-navy"
+                    : importStatus.kind === "reading"
+                      ? "border-[var(--line)] bg-mist/60 text-clay"
+                      : "border-red-200 bg-red-50 text-red-900"
+                }`}
+              >
+                <p className="font-semibold">
+                  {importStatus.kind === "reading"
+                    ? "Importing…"
+                    : importStatus.kind === "ok"
+                      ? "File imported"
+                      : "Import issue"}
+                </p>
+                <p className="mt-0.5 font-mono text-xs break-all">
+                  {importStatus.fileName}
+                </p>
+                <p className="mt-1.5">{importStatus.detail}</p>
+              </div>
+            ) : (
+              <p className="mt-2 text-xs text-clay">
+                Choose a file to import — you’ll see the filename and result here.
+              </p>
+            )}
           </div>
 
           <p className="mt-4 text-sm font-medium text-navy">
