@@ -209,6 +209,45 @@ export default function SchoolSetupDashboard() {
         ) : null}
 
         <section className="mt-8 rounded-2xl border border-[var(--line)] bg-white p-6">
+          <h2 className="font-display text-xl text-ink">
+            Headmaster portal
+          </h2>
+          <p className="mt-2 text-sm text-clay">
+            Site settings is an advanced editor. Hide it from the headmaster
+            when this school should only use School setup for branding.
+          </p>
+          <label className="mt-5 flex cursor-pointer items-start gap-3">
+            <input
+              type="checkbox"
+              className="mt-1 h-4 w-4 rounded border-[var(--line)] text-navy"
+              checked={config.showHeadmasterSiteSettings}
+              onChange={(e) => {
+                const next = {
+                  ...config,
+                  showHeadmasterSiteSettings: e.target.checked,
+                };
+                setSiteConfig(next);
+                savePreview(next);
+                setMessage(
+                  e.target.checked
+                    ? "Site settings is visible in the headmaster portal."
+                    : "Site settings removed from the headmaster portal. Download school.json and redeploy to keep this for everyone."
+                );
+              }}
+            />
+            <span>
+              <span className="block font-semibold text-ink">
+                Show “Site settings” in headmaster portal
+              </span>
+              <span className="mt-1 block text-sm text-clay">
+                Uncheck to remove that tab. School setup stays available at{" "}
+                <code className="text-navy">/setup</code>.
+              </span>
+            </span>
+          </label>
+        </section>
+
+        <section className="mt-8 rounded-2xl border border-[var(--line)] bg-white p-6">
           <p className="text-xs font-semibold uppercase tracking-[0.18em] text-cyan">
             Currently loaded
           </p>
@@ -283,16 +322,23 @@ export default function SchoolSetupDashboard() {
           </div>
         </section>
 
-        <p className="mt-8 text-sm text-clay">
-          Need to tweak wording later? Use{" "}
-          <Link
-            href="/portal/headmaster/site"
-            className="font-semibold text-navy underline"
-          >
-            Headmaster → Site settings
-          </Link>
-          .
-        </p>
+        {config.showHeadmasterSiteSettings ? (
+          <p className="mt-8 text-sm text-clay">
+            Need to tweak wording later? Use{" "}
+            <Link
+              href="/portal/headmaster/site"
+              className="font-semibold text-navy underline"
+            >
+              Headmaster → Site settings
+            </Link>
+            .
+          </p>
+        ) : (
+          <p className="mt-8 text-sm text-clay">
+            Site settings is hidden from the headmaster. Upload updates here, or
+            turn the option above back on if you need the full editor.
+          </p>
+        )}
       </div>
     </div>
   );

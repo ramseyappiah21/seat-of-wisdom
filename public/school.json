@@ -17,6 +17,7 @@
   "website": "https://seatofwisdomschool.com.free/",
   "headmasterUser": "headmaster",
   "headmasterPassword": "SOW-HEAD-2026",
+  "showHeadmasterSiteSettings": true,
   "brand": {
     "primary": "#0b3d7a",
     "primaryDeep": "#062648",

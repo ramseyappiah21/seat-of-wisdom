@@ -23,6 +23,8 @@ export type SiteConfig = {
   website: string;
   headmasterUser: string;
   headmasterPassword: string;
+  /** When false, Site settings is hidden from the headmaster portal (use /setup instead). */
+  showHeadmasterSiteSettings: boolean;
   brand: {
     primary: string;
     primaryDeep: string;
@@ -90,6 +92,7 @@ export const DEFAULT_SITE_CONFIG: SiteConfig = {
   website: "https://seatofwisdomschool.com.free/",
   headmasterUser: "headmaster",
   headmasterPassword: "SOW-HEAD-2026",
+  showHeadmasterSiteSettings: true,
   brand: {
     primary: "#0b3d7a",
     primaryDeep: "#062648",
@@ -244,6 +247,10 @@ export function mergeSiteConfig(
   const next: SiteConfig = {
     ...base,
     ...pickStrings(partial, base),
+    showHeadmasterSiteSettings:
+      typeof partial.showHeadmasterSiteSettings === "boolean"
+        ? partial.showHeadmasterSiteSettings
+        : base.showHeadmasterSiteSettings,
     brand: {
       ...base.brand,
       ...(isPlainObject(partial.brand)

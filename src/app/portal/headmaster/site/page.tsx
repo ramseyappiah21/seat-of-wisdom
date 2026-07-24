@@ -55,10 +55,17 @@ export default function SiteSettingsPage() {
   }, [router]);
 
   useEffect(() => {
+    if (!ready) return;
+    if (!config.showHeadmasterSiteSettings) {
+      router.replace("/portal/headmaster");
+    }
+  }, [ready, config.showHeadmasterSiteSettings, router]);
+
+  useEffect(() => {
     setDraft(config);
   }, [config]);
 
-  if (!ready || !authed) {
+  if (!ready || !authed || !config.showHeadmasterSiteSettings) {
     return <p className="p-8 text-clay">Loading…</p>;
   }
 

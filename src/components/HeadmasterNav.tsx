@@ -1,5 +1,6 @@
 "use client";
 
+import { useSiteConfig } from "@/lib/site-config-provider";
 import Link from "next/link";
 
 const tabs = [
@@ -14,9 +15,15 @@ export function HeadmasterNav({
 }: {
   active: "classes" | "pupils" | "assign" | "site";
 }) {
+  const { config } = useSiteConfig();
+  const visible = tabs.filter(
+    (tab) =>
+      tab.match !== "site" || config.showHeadmasterSiteSettings
+  );
+
   return (
     <nav className="mb-6 flex flex-wrap gap-2 text-sm">
-      {tabs.map((tab) =>
+      {visible.map((tab) =>
         tab.match === active ? (
           <span
             key={tab.href}
