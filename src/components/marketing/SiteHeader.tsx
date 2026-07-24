@@ -3,7 +3,7 @@
 import { BrandMark } from "@/components/marketing/MarketingUI";
 import { useSiteConfig } from "@/lib/site-config-provider";
 import { cn } from "@/lib/utils";
-import { Mail, Menu, Phone, X } from "lucide-react";
+import { Menu, X } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useState } from "react";
@@ -37,30 +37,6 @@ export function SiteHeader() {
 
   return (
     <header className="sticky top-0 z-50">
-      <div className="bg-navy-deep text-sky">
-        <div className="mx-auto flex max-w-6xl items-center justify-between gap-4 px-4 py-2 text-xs sm:px-6 lg:px-8 sm:text-[13px]">
-          <div className="flex flex-wrap items-center gap-x-5 gap-y-1">
-            <a
-              href={`tel:${config.phone.replace(/\s/g, "")}`}
-              className="inline-flex items-center gap-1.5 transition hover:text-paper"
-            >
-              <Phone size={12} />
-              {config.phone}
-            </a>
-            <a
-              href={`mailto:${config.email}`}
-              className="inline-flex items-center gap-1.5 transition hover:text-paper"
-            >
-              <Mail size={12} />
-              {config.email}
-            </a>
-          </div>
-          <p className="hidden text-cyan-soft sm:block">
-            {config.marketing.headerLocationLabel || config.location}
-          </p>
-        </div>
-      </div>
-
       <div className="border-b border-white/10 bg-navy/95 text-paper backdrop-blur-md">
         <div className="mx-auto flex max-w-6xl items-center justify-between gap-4 px-4 py-3.5 sm:px-6 lg:px-8">
           <Link
