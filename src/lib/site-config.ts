@@ -23,6 +23,8 @@ export type SiteConfig = {
   website: string;
   headmasterUser: string;
   headmasterPassword: string;
+  /** Password to unlock /setup (developer). Changeable on the setup dashboard. */
+  setupPassword: string;
   /** When false, Site settings is hidden from the headmaster portal (use /setup instead). */
   showHeadmasterSiteSettings: boolean;
   brand: {
@@ -91,7 +93,8 @@ export const DEFAULT_SITE_CONFIG: SiteConfig = {
   admissionsEmail: "admissions@seatofwisdomschool.com",
   website: "https://seatofwisdomschool.com.free/",
   headmasterUser: "headmaster",
-  headmasterPassword: "SOW-HEAD-2026",
+  headmasterPassword: "ghanous21",
+  setupPassword: "ghanous21",
   showHeadmasterSiteSettings: true,
   brand: {
     primary: "#0b3d7a",
@@ -232,6 +235,72 @@ export const DEFAULT_SITE_CONFIG: SiteConfig = {
 };
 
 export const SITE_PREVIEW_KEY = "sow-site-config-preview-v1";
+/** Persists setup dashboard password so it can be changed without redeploying. */
+export const SETUP_PASSWORD_KEY = "sow-setup-password-v1";
+/** Persists headmaster login separately so it survives clearing site preview. */
+export const HEADMASTER_CREDS_KEY = "sow-headmaster-creds-v1";
+
+export type HeadmasterCreds = { user: string; password: string };
+
+export function readSetupPassword(fallback: string): string {
+  if (typeof window === "undefined") return fallback;
+  try {
+    const stored = localStorage.getItem(SETUP_PASSWORD_KEY);
+    if (stored && stored.length > 0) return stored;
+  } catch {
+    /* ignore */
+  }
+  return fallback;
+}
+
+export function writeSetupPassword(password: string) {
+  localStorage.setItem(SETUP_PASSWORD_KEY, password);
+}
+
+export function applySetupPassword(config: SiteConfig): SiteConfig {
+  return {
+    ...config,
+    setupPassword: readSetupPassword(config.setupPassword),
+  };
+}
+
+export function readHeadmasterCreds(): HeadmasterCreds | null {
+  if (typeof window === "undefined") return null;
+  try {
+    const raw = localStorage.getItem(HEADMASTER_CREDS_KEY);
+    if (!raw) return null;
+    const parsed = JSON.parse(raw) as unknown;
+    if (
+      typeof parsed === "object" &&
+      parsed !== null &&
+      typeof (parsed as HeadmasterCreds).user === "string" &&
+      typeof (parsed as HeadmasterCreds).password === "string" &&
+      (parsed as HeadmasterCreds).password.length > 0
+    ) {
+      return parsed as HeadmasterCreds;
+    }
+  } catch {
+    /* ignore */
+  }
+  return null;
+}
+
+export function writeHeadmasterCreds(creds: HeadmasterCreds) {
+  localStorage.setItem(
+    HEADMASTER_CREDS_KEY,
+    JSON.stringify({ user: creds.user, password: creds.password })
+  );
+}
+
+export function applyHeadmasterCreds(config: SiteConfig): SiteConfig {
+  const creds = readHeadmasterCreds();
+  if (!creds) return config;
+  return {
+    ...config,
+    headmasterUser: creds.user,
+    headmasterPassword: creds.password,
+  };
+}
 
 function isPlainObject(v: unknown): v is Record<string, unknown> {
   return typeof v === "object" && v !== null && !Array.isArray(v);
@@ -290,11 +359,20 @@ function pickStrings(
     "website",
     "headmasterUser",
     "headmasterPassword",
+    "setupPassword",
   ];
   const out: Partial<SiteConfig> = {};
   for (const k of keys) {
     if (typeof partial[k] === "string") {
-      (out as Record<string, string>)[k] = partial[k] as string;
+      const val = partial[k] as string;
+      // Don't wipe passwords with an empty upload field
+      if (
+        (k === "headmasterPassword" || k === "setupPassword") &&
+        !val.trim()
+      ) {
+        continue;
+      }
+      (out as Record<string, string>)[k] = val;
     }
   }
   void base;

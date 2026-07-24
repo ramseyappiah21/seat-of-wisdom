@@ -29,6 +29,7 @@ export const SCHOOL_INFO_FIELDS: Array<{
   { key: "website", label: "Website URL" },
   { key: "headmasterUser", label: "Headmaster username" },
   { key: "headmasterPassword", label: "Headmaster password" },
+  { key: "setupPassword", label: "Setup dashboard password", hint: "Unlocks /setup" },
   { key: "brand.primary", label: "Primary colour (hex)", hint: "#0b3d7a" },
   { key: "brand.primaryDeep", label: "Primary deep (hex)", hint: "#062648" },
   { key: "brand.accent", label: "Accent colour (hex)", hint: "#00adef" },

@@ -58,7 +58,7 @@ export default function HeadmasterAccountPage() {
           </p>
           <HeadmasterCredentialsForm
             requireCurrentPassword
-            note="After saving, use Download school.json below so the live site keeps the new password after redeploy."
+            note="Changes apply immediately on this browser. Download school.json below if you also want it in the next deploy."
             onSaved={setFlash}
           />
           {flash ? (

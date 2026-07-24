@@ -18,7 +18,7 @@ export function HeadmasterCredentialsForm({
   note,
   requireCurrentPassword = false,
 }: Props) {
-  const { config, setSiteConfig, savePreview } = useSiteConfig();
+  const { config, setHeadmasterCredentials } = useSiteConfig();
   const [username, setUsername] = useState(config.headmasterUser);
   const [currentPassword, setCurrentPassword] = useState("");
   const [newPassword, setNewPassword] = useState("");
@@ -46,7 +46,8 @@ export function HeadmasterCredentialsForm({
       }
     }
 
-    const changingPassword = newPassword.length > 0 || confirmPassword.length > 0;
+    const changingPassword =
+      newPassword.length > 0 || confirmPassword.length > 0;
     if (changingPassword) {
       if (newPassword.length < 6) {
         setError("New password must be at least 6 characters.");
@@ -56,33 +57,23 @@ export function HeadmasterCredentialsForm({
         setError("New password and confirmation do not match.");
         return;
       }
-    } else if (
-      nextUser === config.headmasterUser &&
-      !requireCurrentPassword
-    ) {
-      setError("Enter a new password, or change the username.");
-      return;
-    } else if (!changingPassword && nextUser === config.headmasterUser) {
+    } else if (nextUser === config.headmasterUser) {
       setError("Nothing to update. Change the username or set a new password.");
       return;
     }
 
-    const next = {
-      ...config,
-      headmasterUser: nextUser,
-      headmasterPassword: changingPassword
-        ? newPassword
-        : config.headmasterPassword,
-    };
-    setSiteConfig(next);
-    savePreview(next);
+    const nextPassword = changingPassword
+      ? newPassword
+      : config.headmasterPassword;
+
+    setHeadmasterCredentials(nextUser, nextPassword);
     setCurrentPassword("");
     setNewPassword("");
     setConfirmPassword("");
     onSaved?.(
       changingPassword
-        ? "Headmaster credentials updated for this browser. Download school.json and redeploy so it applies for everyone."
-        : "Headmaster username updated for this browser. Download school.json and redeploy so it applies for everyone."
+        ? "Password updated. It works immediately for setup and the headmaster portal on this browser."
+        : "Username updated. It works immediately on this browser."
     );
   }
 

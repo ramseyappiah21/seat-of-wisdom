@@ -7,7 +7,7 @@ import {
   downloadBlankSchoolInfoTemplate,
   parseSchoolUpload,
 } from "@/lib/school-upload";
-import { applyBrandToDocument } from "@/lib/site-config";
+import { applyBrandToDocument, writeHeadmasterCreds, writeSetupPassword } from "@/lib/site-config";
 import { useSiteConfig } from "@/lib/site-config-provider";
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
@@ -17,7 +17,9 @@ const SETUP_SESSION = "sow-setup-dashboard-v1";
 export default function SchoolSetupDashboard() {
   const {
     config,
+    ready,
     setSiteConfig,
+    setSetupPassword,
     savePreview,
     exportSiteConfig,
     clearPreview,
@@ -32,19 +34,49 @@ export default function SchoolSetupDashboard() {
   const [lastFile, setLastFile] = useState<string | null>(null);
   const fileRef = useRef<HTMLInputElement>(null);
 
+  const [currentSetupPassword, setCurrentSetupPassword] = useState("");
+  const [newSetupPassword, setNewSetupPassword] = useState("");
+  const [confirmSetupPassword, setConfirmSetupPassword] = useState("");
+  const [setupPwError, setSetupPwError] = useState("");
+
   useEffect(() => {
     setUnlocked(sessionStorage.getItem(SETUP_SESSION) === "1");
   }, []);
 
   function unlock(e: React.FormEvent) {
     e.preventDefault();
-    if (password === config.headmasterPassword) {
+    if (!ready) return;
+    if (password === config.setupPassword) {
       sessionStorage.setItem(SETUP_SESSION, "1");
       setUnlocked(true);
       setError("");
     } else {
-      setError("Wrong password. Use the headmaster password.");
+      setError("Wrong password.");
     }
+  }
+
+  function changeSetupLogin(e: React.FormEvent) {
+    e.preventDefault();
+    setSetupPwError("");
+    if (currentSetupPassword !== config.setupPassword) {
+      setSetupPwError("Current setup password is incorrect.");
+      return;
+    }
+    if (newSetupPassword.length < 6) {
+      setSetupPwError("New password must be at least 6 characters.");
+      return;
+    }
+    if (newSetupPassword !== confirmSetupPassword) {
+      setSetupPwError("New password and confirmation do not match.");
+      return;
+    }
+    setSetupPassword(newSetupPassword);
+    setCurrentSetupPassword("");
+    setNewSetupPassword("");
+    setConfirmSetupPassword("");
+    setMessage(
+      "Setup password updated. Use the new password next time you open /setup."
+    );
   }
 
   async function onUpload(file: File | null) {
@@ -58,6 +90,15 @@ export default function SchoolSetupDashboard() {
       }
       setSiteConfig(next);
       savePreview(next);
+      if (next.headmasterPassword.trim()) {
+        writeHeadmasterCreds({
+          user: next.headmasterUser || "headmaster",
+          password: next.headmasterPassword,
+        });
+      }
+      if (next.setupPassword.trim()) {
+        writeSetupPassword(next.setupPassword);
+      }
       applyBrandToDocument(next);
       setLastFile(file.name);
       setMessage(
@@ -80,21 +121,21 @@ export default function SchoolSetupDashboard() {
           </Link>
           <h1 className="font-display mt-6 text-3xl text-ink">School setup</h1>
           <p className="mt-2 text-sm text-clay">
-            Upload school information when you have it. Enter the headmaster
-            password to continue.
+            Developer access only. Enter the setup password to continue.
           </p>
           <form onSubmit={unlock} className="mt-8 space-y-4 rounded-2xl border border-[var(--line)] bg-white p-6">
-            <Field label="Password">
+            <Field label="Setup password">
               <input
                 type="password"
                 className={inputClass}
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 required
+                disabled={!ready}
               />
             </Field>
             {error ? <p className="text-sm text-danger">{error}</p> : null}
-            <button type="submit" className={`${btnPrimary} w-full`}>
+            <button type="submit" className={`${btnPrimary} w-full`} disabled={!ready}>
               Open setup dashboard
             </button>
           </form>
@@ -121,7 +162,53 @@ export default function SchoolSetupDashboard() {
       </div>
 
       <div className="mx-auto max-w-3xl px-4 py-10 sm:px-6">
-        <h1 className="font-display text-3xl text-ink sm:text-4xl">
+        <section className="rounded-2xl border border-[var(--line)] bg-white p-6">
+          <h2 className="font-display text-xl text-ink">Change setup password</h2>
+          <p className="mt-2 text-sm text-clay">
+            This password only unlocks <code className="text-navy">/setup</code>.
+            It is separate from the headmaster portal password.
+          </p>
+          <form onSubmit={changeSetupLogin} className="mt-5 space-y-4">
+            <Field label="Current setup password">
+              <input
+                type="password"
+                className={inputClass}
+                value={currentSetupPassword}
+                onChange={(e) => setCurrentSetupPassword(e.target.value)}
+                autoComplete="current-password"
+                required
+              />
+            </Field>
+            <Field label="New setup password">
+              <input
+                type="password"
+                className={inputClass}
+                value={newSetupPassword}
+                onChange={(e) => setNewSetupPassword(e.target.value)}
+                autoComplete="new-password"
+                required
+              />
+            </Field>
+            <Field label="Confirm new setup password">
+              <input
+                type="password"
+                className={inputClass}
+                value={confirmSetupPassword}
+                onChange={(e) => setConfirmSetupPassword(e.target.value)}
+                autoComplete="new-password"
+                required
+              />
+            </Field>
+            {setupPwError ? (
+              <p className="text-sm text-danger">{setupPwError}</p>
+            ) : null}
+            <button type="submit" className={btnPrimary}>
+              Save setup password
+            </button>
+          </form>
+        </section>
+
+        <h1 className="font-display mt-10 text-3xl text-ink sm:text-4xl">
           Load a school’s details
         </h1>
         <p className="mt-3 text-clay">
@@ -211,12 +298,12 @@ export default function SchoolSetupDashboard() {
             Headmaster login
           </h2>
           <p className="mt-2 text-sm text-clay">
-            Set or change the username and password for the headmaster portal
-            and this setup page.
+            Username and password for the headmaster portal (not for this setup
+            page).
           </p>
           <div className="mt-5">
             <HeadmasterCredentialsForm
-              note="Current username is shown above after save. Download school.json so the live site keeps the new password."
+              note="Changes apply immediately for the headmaster portal on this browser."
               onSaved={setMessage}
             />
           </div>

@@ -174,7 +174,7 @@ export const SCHOOL = {
   website: "https://seatofwisdomschool.com.free/",
   /** Demo headmaster portal login */
   headmasterUser: "headmaster",
-  headmasterPassword: "SOW-HEAD-2026",
+  headmasterPassword: "ghanous21",
 } as const;
 
 /** @deprecated Prefer useSiteConfig().config — kept for server metadata / gradual migration */

@@ -2,9 +2,13 @@
 
 import {
   applyBrandToDocument,
+  applyHeadmasterCreds,
+  applySetupPassword,
   DEFAULT_SITE_CONFIG,
   mergeSiteConfig,
   SITE_PREVIEW_KEY,
+  writeHeadmasterCreds,
+  writeSetupPassword,
   type SiteConfig,
 } from "@/lib/site-config";
 import {
@@ -24,6 +28,10 @@ type SiteConfigContextValue = {
   hasPreview: boolean;
   updateSiteConfig: (partial: Partial<SiteConfig> | SiteConfig) => void;
   setSiteConfig: (next: SiteConfig) => void;
+  /** Change headmaster username/password; persists in this browser immediately. */
+  setHeadmasterCredentials: (user: string, password: string) => void;
+  /** Change /setup unlock password; persists in this browser immediately. */
+  setSetupPassword: (password: string) => void;
   savePreview: (override?: SiteConfig) => void;
   clearPreview: () => void;
   resetSiteConfig: () => void;
@@ -73,6 +81,8 @@ export function SiteConfigProvider({ children }: { children: ReactNode }) {
         /* ignore bad preview */
       }
 
+      next = applySetupPassword(applyHeadmasterCreds(next));
+
       if (!cancelled) {
         setConfig(next);
         setHasPreview(preview);
@@ -100,14 +110,44 @@ export function SiteConfigProvider({ children }: { children: ReactNode }) {
   );
 
   const setSiteConfig = useCallback((next: SiteConfig) => {
-    setConfig(mergeSiteConfig(DEFAULT_SITE_CONFIG, next));
+    setConfig(
+      applySetupPassword(
+        applyHeadmasterCreds(mergeSiteConfig(DEFAULT_SITE_CONFIG, next))
+      )
+    );
   }, []);
 
-  const savePreview = useCallback((override?: SiteConfig) => {
-    const data = override ?? config;
-    localStorage.setItem(SITE_PREVIEW_KEY, JSON.stringify(data));
-    setHasPreview(true);
-  }, [config]);
+  const setHeadmasterCredentials = useCallback(
+    (user: string, password: string) => {
+      writeHeadmasterCreds({ user, password });
+      setConfig((prev) => ({
+        ...prev,
+        headmasterUser: user,
+        headmasterPassword: password,
+      }));
+    },
+    []
+  );
+
+  const setSetupPassword = useCallback((password: string) => {
+    writeSetupPassword(password);
+    setConfig((prev) => ({
+      ...prev,
+      setupPassword: password,
+    }));
+  }, []);
+
+  const savePreview = useCallback(
+    (override?: SiteConfig) => {
+      const data = applySetupPassword(
+        applyHeadmasterCreds(override ?? config)
+      );
+      localStorage.setItem(SITE_PREVIEW_KEY, JSON.stringify(data));
+      setHasPreview(true);
+      setConfig(data);
+    },
+    [config]
+  );
 
   const clearPreview = useCallback(() => {
     localStorage.removeItem(SITE_PREVIEW_KEY);
@@ -117,7 +157,9 @@ export function SiteConfigProvider({ children }: { children: ReactNode }) {
         const res = await fetch("/school.json", { cache: "no-store" });
         if (res.ok) {
           const json = await res.json();
-          const next = mergeSiteConfig(DEFAULT_SITE_CONFIG, json);
+          const next = applySetupPassword(
+            applyHeadmasterCreds(mergeSiteConfig(DEFAULT_SITE_CONFIG, json))
+          );
           setConfig(next);
           applyBrandToDocument(next);
           return;
@@ -125,16 +167,18 @@ export function SiteConfigProvider({ children }: { children: ReactNode }) {
       } catch {
         /* fall through */
       }
-      setConfig(DEFAULT_SITE_CONFIG);
-      applyBrandToDocument(DEFAULT_SITE_CONFIG);
+      const next = applySetupPassword(applyHeadmasterCreds(DEFAULT_SITE_CONFIG));
+      setConfig(next);
+      applyBrandToDocument(next);
     })();
   }, []);
 
   const resetSiteConfig = useCallback(() => {
-    setConfig(DEFAULT_SITE_CONFIG);
     localStorage.removeItem(SITE_PREVIEW_KEY);
     setHasPreview(false);
-    applyBrandToDocument(DEFAULT_SITE_CONFIG);
+    const next = applySetupPassword(applyHeadmasterCreds(DEFAULT_SITE_CONFIG));
+    setConfig(next);
+    applyBrandToDocument(next);
   }, []);
 
   const exportSiteConfig = useCallback(() => {
@@ -154,7 +198,17 @@ export function SiteConfigProvider({ children }: { children: ReactNode }) {
   const importSiteConfig = useCallback(async (file: File) => {
     const text = await file.text();
     const parsed = JSON.parse(text) as unknown;
-    const next = mergeSiteConfig(DEFAULT_SITE_CONFIG, parsed);
+    let next = mergeSiteConfig(DEFAULT_SITE_CONFIG, parsed);
+    if (next.headmasterUser && next.headmasterPassword) {
+      writeHeadmasterCreds({
+        user: next.headmasterUser,
+        password: next.headmasterPassword,
+      });
+    }
+    if (next.setupPassword?.trim()) {
+      writeSetupPassword(next.setupPassword);
+    }
+    next = applySetupPassword(applyHeadmasterCreds(next));
     setConfig(next);
     localStorage.setItem(SITE_PREVIEW_KEY, JSON.stringify(next));
     setHasPreview(true);
@@ -186,6 +240,8 @@ export function SiteConfigProvider({ children }: { children: ReactNode }) {
       hasPreview,
       updateSiteConfig,
       setSiteConfig,
+      setHeadmasterCredentials,
+      setSetupPassword,
       savePreview,
       clearPreview,
       resetSiteConfig,
@@ -199,6 +255,8 @@ export function SiteConfigProvider({ children }: { children: ReactNode }) {
       hasPreview,
       updateSiteConfig,
       setSiteConfig,
+      setHeadmasterCredentials,
+      setSetupPassword,
       savePreview,
       clearPreview,
       resetSiteConfig,
