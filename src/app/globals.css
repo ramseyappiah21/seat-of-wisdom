@@ -66,8 +66,9 @@ body {
   margin: 0;
   min-height: 100vh;
   color: var(--ink);
-  background:
-    linear-gradient(180deg, #f2f8fc 0%, var(--paper) 28%, #eef5fa 100%);
+  /* One shared canvas for marketing + every portal */
+  background-color: var(--mist);
+  background-image: none;
   font-family: var(--font-figtree), system-ui, sans-serif;
 }
 

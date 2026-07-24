@@ -32,7 +32,7 @@ export function AppShell({ children }: { children: ReactNode }) {
   const [open, setOpen] = useState(false);
 
   return (
-    <div className="min-h-screen lg:grid lg:grid-cols-[260px_1fr]">
+    <div className="min-h-screen bg-transparent lg:grid lg:grid-cols-[260px_1fr]">
       <aside
         className={cn(
           "fixed inset-y-0 left-0 z-40 w-[260px] border-r border-[var(--line)] bg-forest-deep text-paper transition-transform lg:static lg:translate-x-0",

@@ -2,9 +2,6 @@ import { SCHOOL } from "@/lib/types";
 import Link from "next/link";
 import type { ReactNode } from "react";
 
-const HERO_IMAGE =
-  "https://images.unsplash.com/photo-1509062522246-3755977927d7?auto=format&fit=crop&w=2200&q=80";
-
 export function BrandMark({
   tone = "light",
   size = "md",
@@ -28,23 +25,23 @@ export function PageHero({
   eyebrow,
   title,
   description,
-  imageUrl = HERO_IMAGE,
 }: {
   eyebrow: string;
   title: string;
   description: string;
+  /** @deprecated unused — kept for call-site compatibility */
   imageUrl?: string;
 }) {
   return (
-    <section className="relative min-h-[42vh] overflow-hidden text-paper sm:min-h-[48vh]">
+    <section className="relative overflow-hidden bg-navy text-paper">
       <div
-        className="animate-ken absolute inset-0 bg-cover bg-center"
+        className="absolute inset-0 opacity-50"
         style={{
-          backgroundImage: `linear-gradient(105deg, rgba(6,38,72,0.94) 0%, rgba(11,61,122,0.78) 52%, rgba(0,173,239,0.28) 100%), url('${imageUrl}')`,
+          backgroundImage:
+            "radial-gradient(ellipse at 12% 0%, rgba(0,173,239,0.35), transparent 50%), radial-gradient(ellipse at 100% 80%, rgba(14,90,167,0.4), transparent 45%)",
         }}
       />
-      <div className="grain absolute inset-0" />
-      <div className="relative z-10 mx-auto flex max-w-6xl flex-col justify-end px-4 pb-14 pt-20 sm:px-6 lg:px-8 lg:pb-16 lg:pt-24">
+      <div className="relative z-10 mx-auto max-w-6xl px-4 py-14 sm:px-6 lg:px-8 lg:py-16">
         <p className="animate-rise text-xs font-semibold uppercase tracking-[0.26em] text-cyan-soft">
           {eyebrow}
         </p>
@@ -145,7 +142,7 @@ export function ContentWrap({
 
 export function AdmissionsBand() {
   return (
-    <section className="relative overflow-hidden bg-navy text-paper">
+    <section className="relative overflow-hidden border-t border-b border-[var(--line)] bg-navy text-paper">
       <div
         className="absolute inset-0 opacity-40"
         style={{

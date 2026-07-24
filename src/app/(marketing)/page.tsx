@@ -55,7 +55,7 @@ export default function HomePage() {
         </div>
       </section>
 
-      <section className="border-b border-[var(--line)] bg-white/70">
+      <section className="border-b border-[var(--line)]">
         <ContentWrap>
           <div className="grid gap-12 lg:grid-cols-[1.1fr_0.9fr] lg:items-end">
             <SectionHeading
