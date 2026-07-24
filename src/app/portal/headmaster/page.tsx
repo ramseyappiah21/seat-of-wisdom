@@ -7,14 +7,16 @@ import {
   hasHeadSession,
   saveHeadSession,
 } from "@/lib/portal-auth";
+import { useSiteConfig } from "@/lib/site-config-provider";
 import { useSchool } from "@/lib/store";
-import { CLASS_LEVELS, SCHOOL, classToSlug } from "@/lib/types";
+import { CLASS_LEVELS, classToSlug } from "@/lib/types";
 import { fullName } from "@/lib/utils";
 import Link from "next/link";
 import { useEffect, useMemo, useState } from "react";
 
 export default function HeadmasterPortalPage() {
   const { ready, students, teachers } = useSchool();
+  const { config } = useSiteConfig();
 
   const [authed, setAuthed] = useState(false);
   const [user, setUser] = useState("");
@@ -44,8 +46,8 @@ export default function HeadmasterPortalPage() {
   function login(e: React.FormEvent) {
     e.preventDefault();
     if (
-      user.trim() === SCHOOL.headmasterUser &&
-      password === SCHOOL.headmasterPassword
+      user.trim() === config.headmasterUser &&
+      password === config.headmasterPassword
     ) {
       saveHeadSession();
       setAuthed(true);
@@ -104,8 +106,8 @@ export default function HeadmasterPortalPage() {
             </button>
           </form>
           <p className="mt-4 text-xs text-clay">
-            Demo: <strong>{SCHOOL.headmasterUser}</strong> /{" "}
-            <strong>{SCHOOL.headmasterPassword}</strong>
+            Demo: <strong>{config.headmasterUser}</strong> /{" "}
+            <strong>{config.headmasterPassword}</strong>
           </p>
         </div>
       </div>

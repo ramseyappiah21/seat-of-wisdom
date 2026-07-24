@@ -1,10 +1,14 @@
+"use client";
+
+import { useSiteConfig } from "@/lib/site-config-provider";
 import Link from "next/link";
-import { SCHOOL } from "@/lib/types";
 
 const cardClass =
   "rounded-2xl border border-[var(--line)] bg-white p-6 shadow-[var(--shadow)] transition hover:-translate-y-1 hover:shadow-lg";
 
 export default function StudentPortalHome() {
+  const { config } = useSiteConfig();
+
   return (
     <div className="min-h-[70vh] bg-mist">
       <div className="mx-auto max-w-5xl px-4 py-14 sm:px-6 lg:px-8">
@@ -19,7 +23,7 @@ export default function StudentPortalHome() {
         </p>
         <h1 className="font-display mt-2 text-4xl text-ink">Student portal</h1>
         <p className="mt-3 max-w-2xl text-clay">
-          Select your section at {SCHOOL.name}, then choose your class to sign
+          Select your section at {config.name}, then choose your class to sign
           in.
         </p>
 

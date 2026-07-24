@@ -6,12 +6,13 @@ const tabs = [
   { href: "/portal/headmaster", label: "Classes", match: "classes" },
   { href: "/portal/headmaster/pupils", label: "All pupils", match: "pupils" },
   { href: "/portal/headmaster/assign", label: "Assign teachers", match: "assign" },
+  { href: "/portal/headmaster/site", label: "Site settings", match: "site" },
 ] as const;
 
 export function HeadmasterNav({
   active,
 }: {
-  active: "classes" | "pupils" | "assign";
+  active: "classes" | "pupils" | "assign" | "site";
 }) {
   return (
     <nav className="mb-6 flex flex-wrap gap-2 text-sm">

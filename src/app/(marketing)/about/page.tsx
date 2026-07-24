@@ -1,59 +1,37 @@
+"use client";
+
 import {
   AdmissionsBand,
   ContentWrap,
   PageHero,
   SectionHeading,
 } from "@/components/marketing/MarketingUI";
-import { SCHOOL } from "@/lib/types";
+import { useSiteConfig } from "@/lib/site-config-provider";
 import Link from "next/link";
 
-const values = [
-  {
-    title: "Hard work",
-    text: "Every pupil is encouraged to give their best in class and beyond.",
-  },
-  {
-    title: "Respect",
-    text: "We honour one another — pupils, teachers, and families alike.",
-  },
-  {
-    title: "Child-friendly care",
-    text: "A safe, welcoming environment where young learners can thrive.",
-  },
-  {
-    title: "Teamwork",
-    text: "Teachers, staff, and parents work together for each child's growth.",
-  },
-];
-
 export default function AboutPage() {
+  const { config } = useSiteConfig();
+  const m = config.marketing;
+
   return (
     <div>
       <PageHero
-        eyebrow={`${SCHOOL.location} · ${SCHOOL.country}`}
-        title={SCHOOL.name}
-        description="A basic school committed to educating and developing the young people entrusted to our care."
+        eyebrow={`${config.location} · ${config.country}`}
+        title={config.name}
+        description={m.aboutHeroDescription}
       />
 
       <ContentWrap>
         <div className="grid gap-12 lg:grid-cols-2 lg:items-start">
           <SectionHeading
             eyebrow="Our story"
-            title="Rooted in Afrancho, growing with every child"
-            description={`We serve families across ${SCHOOL.district} with quality Nursery, Kindergarten, Primary, and Junior High education.`}
+            title={m.aboutStoryTitle}
+            description={`${m.aboutStoryIntro} (${config.district}).`}
           />
           <div className="space-y-5 text-base leading-relaxed text-clay">
-            <p>
-              Excellence in education is our essence. We provide the resources
-              for academic rigor alongside inquiry, creativity, and initiative —
-              so every learner grows into a well-rounded young person.
-            </p>
-            <p>
-              Our campus community values hard work, mutual respect, and a
-              child-friendly atmosphere. We welcome all who share our commitment
-              to personal development, responsibility, and service.
-            </p>
-            <p className="font-display text-xl text-navy">Akwaaba.</p>
+            <p>{m.aboutStoryBody1}</p>
+            <p>{m.aboutStoryBody2}</p>
+            <p className="font-display text-xl text-navy">{m.aboutWelcome}</p>
           </div>
         </div>
 
@@ -62,27 +40,20 @@ export default function AboutPage() {
             <p className="text-xs font-semibold uppercase tracking-[0.2em] text-blue">
               Mission
             </p>
-            <p className="mt-4 text-base leading-relaxed text-clay">
-              To provide quality, inclusive, and holistic basic education that
-              meets the aspirations of our learners — raising a generation who
-              are productive citizens of Ghana and the world.
-            </p>
+            <p className="mt-4 text-base leading-relaxed text-clay">{m.mission}</p>
           </div>
           <div>
             <p className="text-xs font-semibold uppercase tracking-[0.2em] text-blue">
               Vision
             </p>
-            <p className="mt-4 text-base leading-relaxed text-clay">
-              To be a leading basic school in Afrancho, Kumasi, modelling care,
-              academic strength, and character for every pupil we serve.
-            </p>
+            <p className="mt-4 text-base leading-relaxed text-clay">{m.vision}</p>
           </div>
         </div>
 
         <div className="mt-20">
           <SectionHeading title="Our values" />
           <div className="mt-10 grid gap-8 sm:grid-cols-2">
-            {values.map((v) => (
+            {m.values.map((v) => (
               <div key={v.title} className="border-l-2 border-cyan pl-5">
                 <h3 className="font-display text-xl text-ink">{v.title}</h3>
                 <p className="mt-2 text-sm leading-relaxed text-clay">{v.text}</p>

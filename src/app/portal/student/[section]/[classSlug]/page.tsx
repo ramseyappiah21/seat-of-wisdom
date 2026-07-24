@@ -6,10 +6,10 @@ import {
   getStudentSession,
   saveStudentSession,
 } from "@/lib/portal-auth";
+import { useSiteConfig } from "@/lib/site-config-provider";
 import { useSchool } from "@/lib/store";
 import {
   classesForSection,
-  SCHOOL,
   slugToClass,
   type ClassLevel,
   type ClassSection,
@@ -22,6 +22,7 @@ import { useEffect, useMemo, useState } from "react";
 export default function StudentClassPortalPage() {
   const params = useParams<{ section: string; classSlug: string }>();
   const router = useRouter();
+  const { config } = useSiteConfig();
   const { students, results, ready, authenticateStudent, updateStudent } =
     useSchool();
 
@@ -201,10 +202,10 @@ export default function StudentClassPortalPage() {
             <div className="print-results-sheet mt-8 print:mt-0">
               <div className="mb-6 hidden border-b border-slate-300 pb-4 print:block">
                 <p className="text-sm font-semibold uppercase tracking-wide text-slate-600">
-                  {SCHOOL.name}
+                  {config.name}
                 </p>
                 <p className="mt-1 text-sm text-slate-600">
-                  {SCHOOL.location} · {classLevel}
+                  {config.location} · {classLevel}
                 </p>
                 <h1 className="mt-3 font-display text-3xl text-ink">
                   {fullName(student.firstName, student.lastName)}
@@ -279,7 +280,7 @@ export default function StudentClassPortalPage() {
               </div>
 
               <p className="mt-6 hidden text-xs text-slate-500 print:block">
-                Printed from {SCHOOL.name} pupil portal · {SCHOOL.academicYear}
+                Printed from {config.name} pupil portal · {config.academicYear}
               </p>
             </div>
           )}

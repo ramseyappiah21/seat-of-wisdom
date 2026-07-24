@@ -1,5 +1,7 @@
+"use client";
+
 import { BrandMark } from "@/components/marketing/MarketingUI";
-import { SCHOOL } from "@/lib/types";
+import { useSiteConfig } from "@/lib/site-config-provider";
 import Link from "next/link";
 
 const footerLinks = [
@@ -12,6 +14,8 @@ const footerLinks = [
 ];
 
 export function SiteFooter() {
+  const { config } = useSiteConfig();
+
   return (
     <footer className="bg-navy-deep text-paper">
       <div className="mx-auto grid max-w-6xl gap-12 px-4 py-14 sm:px-6 lg:grid-cols-[1.5fr_1fr_1fr] lg:px-8 lg:py-16">
@@ -19,14 +23,14 @@ export function SiteFooter() {
           <div className="flex items-center gap-3">
             <BrandMark tone="light" size="sm" />
             <div>
-              <p className="font-display text-xl leading-tight">{SCHOOL.name}</p>
+              <p className="font-display text-xl leading-tight">{config.name}</p>
               <p className="mt-0.5 text-[11px] uppercase tracking-[0.18em] text-cyan-soft">
-                {SCHOOL.type} · {SCHOOL.location}
+                {config.type} · {config.location}
               </p>
             </div>
           </div>
           <p className="mt-5 max-w-sm text-sm leading-relaxed text-sky">
-            {SCHOOL.tagline}. A nurturing learning community for Nursery through
+            {config.tagline}. A nurturing learning community for Nursery through
             Junior High School.
           </p>
         </div>
@@ -51,21 +55,21 @@ export function SiteFooter() {
             Visit us
           </p>
           <ul className="mt-4 space-y-2.5 text-sm text-sky">
-            <li className="leading-relaxed">{SCHOOL.address}</li>
+            <li className="leading-relaxed">{config.address}</li>
             <li>
               <a
-                href={`tel:${SCHOOL.phone.replace(/\s/g, "")}`}
+                href={`tel:${config.phone.replace(/\s/g, "")}`}
                 className="transition hover:text-paper"
               >
-                {SCHOOL.phone}
+                {config.phone}
               </a>
             </li>
             <li>
               <a
-                href={`mailto:${SCHOOL.email}`}
+                href={`mailto:${config.email}`}
                 className="transition hover:text-paper"
               >
-                {SCHOOL.email}
+                {config.email}
               </a>
             </li>
           </ul>
@@ -75,11 +79,11 @@ export function SiteFooter() {
       <div className="border-t border-white/10">
         <div className="mx-auto flex max-w-6xl flex-col gap-2 px-4 py-5 text-xs text-sky/90 sm:flex-row sm:items-center sm:justify-between sm:px-6 lg:px-8">
           <p>
-            © {new Date().getFullYear()} {SCHOOL.name}. Academic year{" "}
-            {SCHOOL.academicYear}.
+            © {new Date().getFullYear()} {config.name}. Academic year{" "}
+            {config.academicYear}.
           </p>
           <p>
-            {SCHOOL.district} · {SCHOOL.region}
+            {config.district} · {config.region}
           </p>
         </div>
       </div>

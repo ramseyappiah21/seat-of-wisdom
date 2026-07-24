@@ -1,51 +1,33 @@
+"use client";
+
 import {
   AdmissionsBand,
   ContentWrap,
   PageHero,
   SectionHeading,
 } from "@/components/marketing/MarketingUI";
-import { SCHOOL } from "@/lib/types";
-
-const stages = [
-  {
-    title: "Nursery",
-    ages: "Early years",
-    text: "Play-based foundations in language, number sense, and social skills in a warm, guided setting.",
-  },
-  {
-    title: "Kindergarten",
-    ages: "KG 1 – KG 2",
-    text: "Ready-for-primary learning through stories, creative arts, outdoor play, and early literacy.",
-  },
-  {
-    title: "Primary",
-    ages: "Primary 1 – 6",
-    text: "Strong literacy and numeracy, Our World Our People, Creative Arts, Computing, and Asante Twi.",
-  },
-  {
-    title: "Junior High",
-    ages: "JHS 1 – 3",
-    text: "Integrated Science, Social Studies, Career Technology, and preparation toward BECE.",
-  },
-];
+import { useSiteConfig } from "@/lib/site-config-provider";
 
 export default function AcademicsPage() {
+  const { config } = useSiteConfig();
+  const m = config.marketing;
+
   return (
     <div>
       <PageHero
         eyebrow="Academics"
-        title="Training tomorrow’s leaders today"
-        description="A Ghana Education Service–aligned programme that balances academic rigor with inquiry, creativity, and character."
+        title={m.academicsHeroTitle}
+        description={m.academicsHeroDescription}
       />
 
       <ContentWrap>
         <SectionHeading
-          title="Our learning pathways"
-          description="From Nursery through Junior High School, every stage builds confidently on the last."
+          title={m.academicsPathwaysTitle}
+          description={m.academicsPathwaysBlurb}
         />
 
         <div className="mt-12 divide-y divide-[var(--line)] border-y border-[var(--line)]">
-          {stages.map((stage) => (
+          {m.stages.map((stage) => (
             <article
               key={stage.title}
               className="grid gap-3 py-8 sm:grid-cols-[10rem_1fr] sm:gap-10"
@@ -67,13 +49,11 @@ export default function AcademicsPage() {
 
         <div className="mt-16 max-w-3xl">
           <h2 className="font-display text-3xl text-ink">
-            Excellence in education is our essence
+            {m.academicsEssenceTitle}
           </h2>
           <p className="mt-4 text-base leading-relaxed text-clay">
-            Class exercises, continuous assessment, and end-of-term exams help us
-            track growth. Subjects include English, Mathematics, Integrated
-            Science, Social Studies, Asante Twi, RME, Creative Arts, and
-            Computing — prepared for academic year {SCHOOL.academicYear}.
+            {m.academicsEssenceBody} Prepared for academic year{" "}
+            {config.academicYear}.
           </p>
         </div>
       </ContentWrap>

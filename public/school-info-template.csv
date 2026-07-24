@@ -1,0 +1,31 @@
+Field,Value,Hint
+"School full name",,"e.g. Green Valley Basic School"
+"Short name",,"e.g. Green Valley"
+"School type",,"e.g. Basic School"
+"Tagline",,
+"Academic year",,"e.g. 2025/2026"
+"Location",,"e.g. Kumasi"
+"Area / town",,
+"District",,
+"Region",,
+"Country",,"Ghana"
+"Full address",,
+"Phone",,
+"WhatsApp",,
+"Email",,
+"Admissions email",,
+"Website URL",,
+"Headmaster username",,"headmaster"
+"Headmaster password",,
+"Primary colour (hex)",,"#0b3d7a"
+"Primary deep (hex)",,"#062648"
+"Accent colour (hex)",,"#00adef"
+"Accent soft (hex)",,"#7dd8f7"
+"Logo initials",,"e.g. GV"
+"Nav subtitle",,"Basic School · Town"
+"Home support sentence",,
+"About page description",,
+"Mission",,
+"Vision",,
+"Office hours",,"Monday – Friday, 8:00am – 4:00pm"
+"Header location label",,

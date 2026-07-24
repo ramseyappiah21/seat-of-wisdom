@@ -1,4 +1,6 @@
-import { SCHOOL } from "@/lib/types";
+"use client";
+
+import { useSiteConfig } from "@/lib/site-config-provider";
 import Link from "next/link";
 import type { ReactNode } from "react";
 
@@ -9,6 +11,7 @@ export function BrandMark({
   tone?: "light" | "dark";
   size?: "sm" | "md";
 }) {
+  const { config } = useSiteConfig();
   const dim = size === "sm" ? "h-9 w-9 text-sm" : "h-11 w-11 text-base";
   const ring = tone === "light" ? "bg-cyan text-navy-deep" : "bg-navy text-paper";
   return (
@@ -16,7 +19,7 @@ export function BrandMark({
       className={`inline-flex ${dim} shrink-0 items-center justify-center rounded-full font-display font-semibold tracking-tight ${ring}`}
       aria-hidden
     >
-      SW
+      {config.brand.logoInitials}
     </span>
   );
 }
@@ -29,7 +32,6 @@ export function PageHero({
   eyebrow: string;
   title: string;
   description: string;
-  /** @deprecated unused — kept for call-site compatibility */
   imageUrl?: string;
 }) {
   return (
@@ -95,7 +97,7 @@ export function ExploreLink({
   return (
     <Link
       href={href}
-      className="group block border-t border-[var(--line)] py-7 transition first:border-t-0 first:pt-0 hover:bg-mist/40 sm:py-8"
+      className="group block border-t border-[var(--line)] py-7 transition first:border-t-0 first:pt-0 hover:bg-white/40 sm:py-8"
     >
       <div className="flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between sm:gap-8">
         <div>
@@ -114,7 +116,6 @@ export function ExploreLink({
   );
 }
 
-/** @deprecated Prefer ExploreLink for a cleaner layout */
 export function ExploreCard(props: {
   href: string;
   title: string;
@@ -141,6 +142,7 @@ export function ContentWrap({
 }
 
 export function AdmissionsBand() {
+  const { config } = useSiteConfig();
   return (
     <section className="relative overflow-hidden border-t border-b border-[var(--line)] bg-navy text-paper">
       <div
@@ -153,10 +155,10 @@ export function AdmissionsBand() {
       <div className="relative mx-auto flex max-w-6xl flex-col items-start justify-between gap-8 px-4 py-16 sm:px-6 lg:flex-row lg:items-center lg:px-8 lg:py-20">
         <div>
           <p className="text-xs font-semibold uppercase tracking-[0.24em] text-cyan-soft">
-            Admissions {SCHOOL.academicYear}
+            Admissions {config.academicYear}
           </p>
           <h2 className="font-display mt-3 max-w-xl text-3xl leading-tight sm:text-4xl">
-            {SCHOOL.tagline}
+            {config.tagline}
           </h2>
           <p className="mt-3 max-w-lg text-sky">
             Places open for Nursery through JHS. Visit campus or enquire online.

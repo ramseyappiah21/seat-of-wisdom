@@ -1,5 +1,6 @@
 "use client";
 
+import { useSiteConfig } from "@/lib/site-config-provider";
 import { cn } from "@/lib/utils";
 import {
   BookOpenCheck,
@@ -15,7 +16,6 @@ import {
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useState, type ReactNode } from "react";
-import { SCHOOL } from "@/lib/types";
 
 const nav = [
   { href: "/dashboard", label: "Dashboard", icon: LayoutDashboard },
@@ -30,6 +30,7 @@ const nav = [
 export function AppShell({ children }: { children: ReactNode }) {
   const pathname = usePathname();
   const [open, setOpen] = useState(false);
+  const { config } = useSiteConfig();
 
   return (
     <div className="min-h-screen bg-transparent lg:grid lg:grid-cols-[260px_1fr]">
@@ -43,10 +44,10 @@ export function AppShell({ children }: { children: ReactNode }) {
           <div className="border-b border-white/10 px-5 py-6">
             <Link href="/" className="group block" onClick={() => setOpen(false)}>
               <p className="text-xs font-semibold uppercase tracking-[0.22em] text-gold-soft">
-                {SCHOOL.type} · {SCHOOL.location}
+                {config.type} · {config.location}
               </p>
               <p className="font-display mt-2 text-2xl leading-tight text-paper transition group-hover:text-gold-soft">
-                {SCHOOL.shortName}
+                {config.shortName}
               </p>
             </Link>
           </div>
@@ -83,7 +84,7 @@ export function AppShell({ children }: { children: ReactNode }) {
                 </span>
               </div>
               <p className="mt-2 text-sm text-paper">2025 / 2026 · First Term</p>
-              <p className="mt-1 text-xs text-sage">{SCHOOL.area}</p>
+              <p className="mt-1 text-xs text-sage">{config.area}</p>
             </div>
           </div>
         </div>
@@ -109,10 +110,10 @@ export function AppShell({ children }: { children: ReactNode }) {
             {open ? <X size={20} /> : <Menu size={20} />}
           </button>
           <p className="font-display text-lg text-forest lg:hidden">
-            {SCHOOL.shortName}
+            {config.shortName}
           </p>
           <div className="hidden text-sm text-clay lg:block">
-            {SCHOOL.name} · {SCHOOL.district}
+            {config.name} · {config.district}
           </div>
           <Link
             href="/"

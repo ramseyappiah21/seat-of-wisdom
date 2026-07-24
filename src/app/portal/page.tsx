@@ -1,5 +1,7 @@
+"use client";
+
+import { useSiteConfig } from "@/lib/site-config-provider";
 import Link from "next/link";
-import { SCHOOL } from "@/lib/types";
 
 const portalCardClass =
   "rounded-2xl border border-[var(--line)] bg-white p-6 shadow-[var(--shadow)] transition hover:-translate-y-1 hover:shadow-lg";
@@ -26,11 +28,13 @@ const portals = [
 ] as const;
 
 export default function PortalHubPage() {
+  const { config } = useSiteConfig();
+
   return (
     <div className="min-h-[70vh] bg-mist">
       <div className="mx-auto max-w-5xl px-4 py-14 sm:px-6 lg:px-8 lg:py-16">
         <p className="text-xs font-semibold uppercase tracking-[0.22em] text-cyan">
-          {SCHOOL.name}
+          {config.name}
         </p>
         <h1 className="font-display mt-3 text-4xl text-ink sm:text-5xl">
           School portals
@@ -41,7 +45,7 @@ export default function PortalHubPage() {
           pupils.
         </p>
 
-        <div className="mt-10 grid gap-5 md:grid-cols-3">
+        <div className="mt-10 grid gap-5 md:grid-cols-2 lg:grid-cols-4">
           {portals.map((p) => (
             <Link key={p.href} href={p.href} className={portalCardClass}>
               <p className="text-xs font-semibold uppercase tracking-[0.18em] text-cyan">
@@ -51,6 +55,17 @@ export default function PortalHubPage() {
               <p className="mt-2 text-sm text-clay">{p.text}</p>
             </Link>
           ))}
+          <Link href="/setup" className={portalCardClass}>
+            <p className="text-xs font-semibold uppercase tracking-[0.18em] text-cyan">
+              Template
+            </p>
+            <h2 className="font-display mt-3 text-2xl text-ink">
+              School setup
+            </h2>
+            <p className="mt-2 text-sm text-clay">
+              Upload a school’s details (CSV / Excel / JSON) when you have them.
+            </p>
+          </Link>
         </div>
 
         <p className="mt-8 text-sm text-clay">

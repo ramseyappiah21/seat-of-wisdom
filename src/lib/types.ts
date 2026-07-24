@@ -177,6 +177,9 @@ export const SCHOOL = {
   headmasterPassword: "SOW-HEAD-2026",
 } as const;
 
+/** @deprecated Prefer useSiteConfig().config — kept for server metadata / gradual migration */
+export type SchoolIdentity = typeof SCHOOL;
+
 export function classesForSection(section: ClassSection): ClassLevel[] {
   if (section === "primary") return PRIMARY_CLASSES;
   if (section === "jhs") return JHS_CLASSES;

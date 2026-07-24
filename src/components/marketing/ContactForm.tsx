@@ -1,7 +1,7 @@
 "use client";
 
 import { Field, inputClass } from "@/components/ui";
-import { SCHOOL } from "@/lib/types";
+import { useSiteConfig } from "@/lib/site-config-provider";
 import { useState, type FormEvent } from "react";
 
 type Mode = "enquire" | "visit" | "message";
@@ -13,6 +13,7 @@ const titles: Record<Mode, string> = {
 };
 
 export function ContactForm({ mode = "enquire" }: { mode?: Mode }) {
+  const { config } = useSiteConfig();
   const [sent, setSent] = useState(false);
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
@@ -29,11 +30,11 @@ export function ContactForm({ mode = "enquire" }: { mode?: Mode }) {
 
   if (sent) {
     return (
-      <div className="animate-rise border border-[var(--line)] bg-mist/70 px-6 py-10 text-center">
+      <div className="animate-rise border border-[var(--line)] bg-white px-6 py-10 text-center">
         <p className="font-display text-2xl text-navy">Thank you</p>
         <p className="mx-auto mt-2 max-w-md text-sm leading-relaxed text-clay">
           We have received your {mode === "visit" ? "visit request" : "enquiry"}.
-          Our team will respond at {SCHOOL.admissionsEmail}.
+          Our team will respond at {config.admissionsEmail}.
         </p>
         <button
           type="button"
@@ -53,7 +54,7 @@ export function ContactForm({ mode = "enquire" }: { mode?: Mode }) {
     >
       <h3 className="font-display text-2xl text-ink">{titles[mode]}</h3>
       <p className="mt-1 text-sm text-clay">
-        Academic year {SCHOOL.academicYear} · {SCHOOL.location}
+        Academic year {config.academicYear} · {config.location}
       </p>
 
       <div className="mt-6 grid gap-4 sm:grid-cols-2">
@@ -79,7 +80,7 @@ export function ContactForm({ mode = "enquire" }: { mode?: Mode }) {
             className={inputClass}
             value={phone}
             onChange={(e) => setPhone(e.target.value)}
-            placeholder={SCHOOL.whatsapp}
+            placeholder={config.whatsapp}
           />
         </Field>
         {mode !== "message" ? (

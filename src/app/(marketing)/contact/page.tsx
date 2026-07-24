@@ -1,18 +1,23 @@
+"use client";
+
 import { ContactForm } from "@/components/marketing/ContactForm";
 import {
   ContentWrap,
   PageHero,
   SectionHeading,
 } from "@/components/marketing/MarketingUI";
-import { SCHOOL } from "@/lib/types";
+import { useSiteConfig } from "@/lib/site-config-provider";
 
 export default function ContactPage() {
+  const { config } = useSiteConfig();
+  const m = config.marketing;
+
   return (
     <div>
       <PageHero
         eyebrow="Contact"
-        title="Visit us in Afrancho"
-        description="Call the office, send a message, or schedule a campus tour — we would love to welcome you."
+        title={m.contactHeroTitle}
+        description={m.contactHeroDescription}
       />
 
       <ContentWrap>
@@ -25,7 +30,7 @@ export default function ContactPage() {
                   Campus address
                 </dt>
                 <dd className="mt-2 text-base leading-relaxed text-clay">
-                  {SCHOOL.address}
+                  {config.address}
                 </dd>
               </div>
               <div>
@@ -34,10 +39,10 @@ export default function ContactPage() {
                 </dt>
                 <dd className="mt-2 text-base text-clay">
                   <a
-                    href={`tel:${SCHOOL.phone.replace(/\s/g, "")}`}
+                    href={`tel:${config.phone.replace(/\s/g, "")}`}
                     className="transition hover:text-navy"
                   >
-                    {SCHOOL.phone}
+                    {config.phone}
                   </a>
                 </dd>
               </div>
@@ -47,10 +52,10 @@ export default function ContactPage() {
                 </dt>
                 <dd className="mt-2 text-base text-clay">
                   <a
-                    href={`mailto:${SCHOOL.email}`}
+                    href={`mailto:${config.email}`}
                     className="transition hover:text-navy"
                   >
-                    {SCHOOL.email}
+                    {config.email}
                   </a>
                 </dd>
               </div>
@@ -60,10 +65,10 @@ export default function ContactPage() {
                 </dt>
                 <dd className="mt-2 text-base text-clay">
                   <a
-                    href={`mailto:${SCHOOL.admissionsEmail}`}
+                    href={`mailto:${config.admissionsEmail}`}
                     className="transition hover:text-navy"
                   >
-                    {SCHOOL.admissionsEmail}
+                    {config.admissionsEmail}
                   </a>
                 </dd>
               </div>
@@ -72,9 +77,9 @@ export default function ContactPage() {
                   Office hours
                 </dt>
                 <dd className="mt-2 text-base leading-relaxed text-clay">
-                  Monday – Friday, 8:00am – 4:00pm
+                  {m.officeHours}
                   <br />
-                  Academic year {SCHOOL.academicYear}
+                  Academic year {config.academicYear}
                 </dd>
               </div>
             </dl>

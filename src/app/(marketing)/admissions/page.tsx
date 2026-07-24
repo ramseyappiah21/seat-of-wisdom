@@ -1,44 +1,34 @@
+"use client";
+
 import { ContactForm } from "@/components/marketing/ContactForm";
 import {
   ContentWrap,
   PageHero,
   SectionHeading,
 } from "@/components/marketing/MarketingUI";
-import { SCHOOL } from "@/lib/types";
-
-const steps = [
-  "Complete an online enquiry or visit the school office.",
-  "Submit the child's birth certificate and recent passport photograph.",
-  "Share previous school report (where applicable).",
-  "Attend an assessment / interview as scheduled.",
-  "Receive an offer and complete fee payment to confirm the place.",
-];
-
-const docs = [
-  "Birth certificate or baptismal extract",
-  "Two passport-size photographs",
-  "Last school report (Primary / JHS transfers)",
-  "Parent / guardian Ghana Card or ID",
-];
+import { useSiteConfig } from "@/lib/site-config-provider";
 
 export default function AdmissionsPage() {
+  const { config } = useSiteConfig();
+  const m = config.marketing;
+
   return (
     <div>
       <PageHero
-        eyebrow={`Admissions · ${SCHOOL.academicYear}`}
-        title="Join the Seat of Wisdom family"
-        description="Deciding on the right school is an important choice. We welcome new families into our Afrancho community with open arms."
+        eyebrow={`Admissions · ${config.academicYear}`}
+        title={m.admissionsHeroTitle}
+        description={m.admissionsHeroDescription}
       />
 
       <ContentWrap>
         <div className="grid gap-14 lg:grid-cols-[1.1fr_0.9fr]">
           <div>
             <SectionHeading
-              title="How to join us"
-              description="A clear pathway from first enquiry to first day of school."
+              title={m.admissionsStepsTitle}
+              description={m.admissionsStepsBlurb}
             />
             <ol className="mt-10 space-y-0 border-t border-[var(--line)]">
-              {steps.map((step, i) => (
+              {m.admissionsSteps.map((step, i) => (
                 <li
                   key={step}
                   className="flex gap-5 border-b border-[var(--line)] py-5"
@@ -55,10 +45,10 @@ export default function AdmissionsPage() {
 
             <div className="mt-12">
               <h3 className="font-display text-xl text-ink">
-                Documents required
+                {m.admissionsDocsTitle}
               </h3>
               <ul className="mt-5 space-y-3 text-sm text-clay">
-                {docs.map((d) => (
+                {m.admissionsDocs.map((d) => (
                   <li key={d} className="flex gap-3">
                     <span className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-cyan" />
                     {d}
@@ -69,11 +59,11 @@ export default function AdmissionsPage() {
                 Questions? Email{" "}
                 <a
                   className="font-semibold text-navy hover:underline"
-                  href={`mailto:${SCHOOL.admissionsEmail}`}
+                  href={`mailto:${config.admissionsEmail}`}
                 >
-                  {SCHOOL.admissionsEmail}
+                  {config.admissionsEmail}
                 </a>{" "}
-                or call {SCHOOL.phone}.
+                or call {config.phone}.
               </p>
             </div>
           </div>

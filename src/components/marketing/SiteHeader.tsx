@@ -1,7 +1,7 @@
 "use client";
 
 import { BrandMark } from "@/components/marketing/MarketingUI";
-import { SCHOOL } from "@/lib/types";
+import { useSiteConfig } from "@/lib/site-config-provider";
 import { cn } from "@/lib/utils";
 import { Mail, Menu, Phone, X } from "lucide-react";
 import Link from "next/link";
@@ -20,6 +20,7 @@ const links = [
 export function SiteHeader() {
   const pathname = usePathname();
   const [open, setOpen] = useState(false);
+  const { config } = useSiteConfig();
 
   function navClass(href: string) {
     const active =
@@ -40,21 +41,23 @@ export function SiteHeader() {
         <div className="mx-auto flex max-w-6xl items-center justify-between gap-4 px-4 py-2 text-xs sm:px-6 lg:px-8 sm:text-[13px]">
           <div className="flex flex-wrap items-center gap-x-5 gap-y-1">
             <a
-              href={`tel:${SCHOOL.phone.replace(/\s/g, "")}`}
+              href={`tel:${config.phone.replace(/\s/g, "")}`}
               className="inline-flex items-center gap-1.5 transition hover:text-paper"
             >
               <Phone size={12} />
-              {SCHOOL.phone}
+              {config.phone}
             </a>
             <a
-              href={`mailto:${SCHOOL.email}`}
+              href={`mailto:${config.email}`}
               className="inline-flex items-center gap-1.5 transition hover:text-paper"
             >
               <Mail size={12} />
-              {SCHOOL.email}
+              {config.email}
             </a>
           </div>
-          <p className="hidden text-cyan-soft sm:block">{SCHOOL.location}</p>
+          <p className="hidden text-cyan-soft sm:block">
+            {config.marketing.headerLocationLabel || config.location}
+          </p>
         </div>
       </div>
 
@@ -68,10 +71,10 @@ export function SiteHeader() {
             <BrandMark tone="light" size="sm" />
             <span className="min-w-0">
               <span className="block font-display text-lg leading-tight sm:text-xl">
-                {SCHOOL.shortName}
+                {config.shortName}
               </span>
               <span className="block text-[10px] uppercase tracking-[0.2em] text-cyan-soft sm:text-[11px]">
-                Basic School · Afrancho
+                {config.brand.navSubtitle}
               </span>
             </span>
           </Link>

@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Figtree, Fraunces } from "next/font/google";
+import { SiteConfigProvider } from "@/lib/site-config-provider";
 import { SchoolProvider } from "@/lib/store";
 import { SCHOOL } from "@/lib/types";
 import "./globals.css";
@@ -31,7 +32,9 @@ export default function RootLayout({
       className={`${figtree.variable} ${fraunces.variable} h-full`}
     >
       <body className="min-h-full antialiased">
-        <SchoolProvider>{children}</SchoolProvider>
+        <SiteConfigProvider>
+          <SchoolProvider>{children}</SchoolProvider>
+        </SiteConfigProvider>
       </body>
     </html>
   );
