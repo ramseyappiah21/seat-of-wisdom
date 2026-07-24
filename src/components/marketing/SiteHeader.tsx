@@ -14,11 +14,25 @@ const links = [
   { href: "/admissions", label: "Admissions" },
   { href: "/news", label: "Updates" },
   { href: "/contact", label: "Contact" },
+  { href: "/portal", label: "Portals" },
 ];
 
 export function SiteHeader() {
   const pathname = usePathname();
   const [open, setOpen] = useState(false);
+
+  function navClass(href: string) {
+    const active =
+      href === "/portal"
+        ? pathname.startsWith("/portal")
+        : pathname === href;
+    return cn(
+      "rounded-lg px-3 py-2 text-sm font-medium transition",
+      active
+        ? "bg-white/12 text-paper"
+        : "text-sky hover:bg-white/10 hover:text-paper"
+    );
+  }
 
   return (
     <header className="sticky top-0 z-50">
@@ -63,37 +77,14 @@ export function SiteHeader() {
           </Link>
 
           <nav className="hidden items-center gap-0.5 lg:flex">
-            <Link
-              href="/"
-              className={cn(
-                "rounded-lg px-3 py-2 text-sm font-medium transition",
-                pathname === "/"
-                  ? "bg-white/12 text-paper"
-                  : "text-sky hover:bg-white/10 hover:text-paper"
-              )}
-            >
+            <Link href="/" className={navClass("/")}>
               Home
             </Link>
-            {links.map((link) => {
-              const active = pathname === link.href;
-              return (
-                <Link
-                  key={link.href}
-                  href={link.href}
-                  className={cn(
-                    "rounded-lg px-3 py-2 text-sm font-medium transition",
-                    active
-                      ? "bg-white/12 text-paper"
-                      : "text-sky hover:bg-white/10 hover:text-paper"
-                  )}
-                >
-                  {link.label}
-                </Link>
-              );
-            })}
-            <Link href="/portal" className="btn-cyan ml-3 !py-2 !px-3.5">
-              Portals
-            </Link>
+            {links.map((link) => (
+              <Link key={link.href} href={link.href} className={navClass(link.href)}>
+                {link.label}
+              </Link>
+            ))}
           </nav>
 
           <button
@@ -112,7 +103,12 @@ export function SiteHeader() {
               <Link
                 href="/"
                 onClick={() => setOpen(false)}
-                className="rounded-xl px-3 py-3 text-sm font-medium text-paper hover:bg-white/10"
+                className={cn(
+                  "rounded-xl px-3 py-3 text-sm font-medium",
+                  pathname === "/"
+                    ? "bg-white/12 text-paper"
+                    : "text-sky hover:bg-white/10"
+                )}
               >
                 Home
               </Link>
@@ -123,7 +119,11 @@ export function SiteHeader() {
                   onClick={() => setOpen(false)}
                   className={cn(
                     "rounded-xl px-3 py-3 text-sm font-medium",
-                    pathname === link.href
+                    (
+                      link.href === "/portal"
+                        ? pathname.startsWith("/portal")
+                        : pathname === link.href
+                    )
                       ? "bg-white/12 text-paper"
                       : "text-sky hover:bg-white/10"
                   )}
@@ -131,13 +131,6 @@ export function SiteHeader() {
                   {link.label}
                 </Link>
               ))}
-              <Link
-                href="/portal"
-                onClick={() => setOpen(false)}
-                className="btn-cyan mt-3 text-center"
-              >
-                Portals
-              </Link>
             </nav>
           </div>
         ) : null}
