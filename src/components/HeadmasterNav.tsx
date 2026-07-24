@@ -7,13 +7,14 @@ const tabs = [
   { href: "/portal/headmaster", label: "Classes", match: "classes" },
   { href: "/portal/headmaster/pupils", label: "All pupils", match: "pupils" },
   { href: "/portal/headmaster/assign", label: "Assign teachers", match: "assign" },
+  { href: "/portal/headmaster/account", label: "Account", match: "account" },
   { href: "/portal/headmaster/site", label: "Site settings", match: "site" },
 ] as const;
 
 export function HeadmasterNav({
   active,
 }: {
-  active: "classes" | "pupils" | "assign" | "site";
+  active: "classes" | "pupils" | "assign" | "account" | "site";
 }) {
   const { config } = useSiteConfig();
   const visible = tabs.filter(

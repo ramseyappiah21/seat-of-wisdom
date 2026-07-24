@@ -1,6 +1,7 @@
 "use client";
 
 import { BrandMark } from "@/components/marketing/MarketingUI";
+import { HeadmasterCredentialsForm } from "@/components/HeadmasterCredentialsForm";
 import { Field, btnPrimary, btnSecondary, inputClass } from "@/components/ui";
 import {
   downloadBlankSchoolInfoTemplate,
@@ -37,10 +38,7 @@ export default function SchoolSetupDashboard() {
 
   function unlock(e: React.FormEvent) {
     e.preventDefault();
-    if (
-      password === config.headmasterPassword ||
-      password === "SOW-HEAD-2026"
-    ) {
+    if (password === config.headmasterPassword) {
       sessionStorage.setItem(SETUP_SESSION, "1");
       setUnlocked(true);
       setError("");
@@ -207,6 +205,26 @@ export default function SchoolSetupDashboard() {
             {message}
           </p>
         ) : null}
+
+        <section className="mt-8 rounded-2xl border border-[var(--line)] bg-white p-6">
+          <h2 className="font-display text-xl text-ink">
+            Headmaster login
+          </h2>
+          <p className="mt-2 text-sm text-clay">
+            Set or change the username and password for the headmaster portal
+            and this setup page.
+          </p>
+          <div className="mt-5">
+            <HeadmasterCredentialsForm
+              note="Current username is shown above after save. Download school.json so the live site keeps the new password."
+              onSaved={setMessage}
+            />
+          </div>
+          <p className="mt-4 text-sm text-clay">
+            Current username:{" "}
+            <strong className="text-ink">{config.headmasterUser}</strong>
+          </p>
+        </section>
 
         <section className="mt-8 rounded-2xl border border-[var(--line)] bg-white p-6">
           <h2 className="font-display text-xl text-ink">
