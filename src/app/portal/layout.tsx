@@ -17,9 +17,6 @@ export default function PortalLayout({
             <Link href="/" className="text-sky hover:text-paper">
               Website
             </Link>
-            <Link href="/dashboard" className="text-sky hover:text-paper">
-              Office
-            </Link>
           </div>
         </div>
       </div>

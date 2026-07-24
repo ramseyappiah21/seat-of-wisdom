@@ -1,10 +1,10 @@
 import {
+  AdmissionsBand,
   ContentWrap,
   PageHero,
   SectionHeading,
 } from "@/components/marketing/MarketingUI";
 import { SCHOOL } from "@/lib/types";
-import Link from "next/link";
 
 const stages = [
   {
@@ -34,7 +34,7 @@ export default function AcademicsPage() {
     <div>
       <PageHero
         eyebrow="Academics"
-        title="Training tomorrow's leaders today"
+        title="Training tomorrow’s leaders today"
         description="A Ghana Education Service–aligned programme that balances academic rigor with inquiry, creativity, and character."
       />
 
@@ -44,36 +44,41 @@ export default function AcademicsPage() {
           description="From Nursery through Junior High School, every stage builds confidently on the last."
         />
 
-        <div className="mt-10 grid gap-5 md:grid-cols-2">
+        <div className="mt-12 divide-y divide-[var(--line)] border-y border-[var(--line)]">
           {stages.map((stage) => (
             <article
               key={stage.title}
-              className="rounded-2xl border border-[var(--line)] bg-white/70 p-6 shadow-sm"
+              className="grid gap-3 py-8 sm:grid-cols-[10rem_1fr] sm:gap-10"
             >
-              <p className="text-xs font-semibold uppercase tracking-[0.18em] text-moss">
-                {stage.ages}
+              <div>
+                <p className="text-xs font-semibold uppercase tracking-[0.18em] text-blue">
+                  {stage.ages}
+                </p>
+                <h3 className="font-display mt-2 text-2xl text-ink">
+                  {stage.title}
+                </h3>
+              </div>
+              <p className="text-base leading-relaxed text-clay sm:pt-6">
+                {stage.text}
               </p>
-              <h3 className="font-display mt-2 text-2xl text-ink">{stage.title}</h3>
-              <p className="mt-3 text-sm leading-relaxed text-clay">{stage.text}</p>
             </article>
           ))}
         </div>
 
-        <div className="mt-16 rounded-2xl bg-forest px-6 py-10 text-paper sm:px-10">
-          <h2 className="font-display text-3xl">Excellence in education is our essence</h2>
-          <p className="mt-3 max-w-2xl text-sage leading-relaxed">
+        <div className="mt-16 max-w-3xl">
+          <h2 className="font-display text-3xl text-ink">
+            Excellence in education is our essence
+          </h2>
+          <p className="mt-4 text-base leading-relaxed text-clay">
             Class exercises, continuous assessment, and end-of-term exams help us
             track growth. Subjects include English, Mathematics, Integrated
-            Science, Social Studies, Asante Twi, RME, Creative Arts, and Computing.
+            Science, Social Studies, Asante Twi, RME, Creative Arts, and
+            Computing — prepared for academic year {SCHOOL.academicYear}.
           </p>
-          <Link
-            href="/admissions"
-            className="mt-6 inline-flex rounded-xl bg-gold px-5 py-3 text-sm font-semibold text-forest-deep transition hover:bg-gold-soft"
-          >
-            Apply for {SCHOOL.academicYear}
-          </Link>
         </div>
       </ContentWrap>
+
+      <AdmissionsBand />
     </div>
   );
 }

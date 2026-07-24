@@ -1,8 +1,9 @@
 "use client";
 
+import { BrandMark } from "@/components/marketing/MarketingUI";
 import { SCHOOL } from "@/lib/types";
 import { cn } from "@/lib/utils";
-import { Mail, MapPin, Menu, Phone, X } from "lucide-react";
+import { Mail, Menu, Phone, X } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useState } from "react";
@@ -21,56 +22,53 @@ export function SiteHeader() {
 
   return (
     <header className="sticky top-0 z-50">
-      {/* Top bar — matches seatofwisdomschool.com.free cyan strip */}
-      <div className="bg-cyan text-paper">
-        <div className="mx-auto flex max-w-6xl flex-col gap-2 px-4 py-2 text-xs sm:flex-row sm:items-center sm:justify-between sm:px-6 lg:px-8 sm:text-sm">
-          <div className="flex flex-wrap items-center gap-x-4 gap-y-1">
+      <div className="bg-navy-deep text-sky">
+        <div className="mx-auto flex max-w-6xl items-center justify-between gap-4 px-4 py-2 text-xs sm:px-6 lg:px-8 sm:text-[13px]">
+          <div className="flex flex-wrap items-center gap-x-5 gap-y-1">
             <a
               href={`tel:${SCHOOL.phone.replace(/\s/g, "")}`}
-              className="inline-flex items-center gap-1.5 hover:opacity-90"
+              className="inline-flex items-center gap-1.5 transition hover:text-paper"
             >
-              <Phone size={13} />
+              <Phone size={12} />
               {SCHOOL.phone}
             </a>
             <a
               href={`mailto:${SCHOOL.email}`}
-              className="inline-flex items-center gap-1.5 hover:opacity-90"
+              className="inline-flex items-center gap-1.5 transition hover:text-paper"
             >
-              <Mail size={13} />
+              <Mail size={12} />
               {SCHOOL.email}
             </a>
           </div>
-          <p className="inline-flex items-center gap-1.5 font-medium">
-            <MapPin size={13} />
-            {SCHOOL.name}, {SCHOOL.location}, {SCHOOL.region}, {SCHOOL.country}
-          </p>
-          <Link
-            href="/admissions"
-            className="hidden rounded-md bg-navy px-3 py-1.5 text-xs font-semibold uppercase tracking-wide text-paper transition hover:bg-navy-deep lg:inline-flex"
-          >
-            Enquiry
-          </Link>
+          <p className="hidden text-cyan-soft sm:block">{SCHOOL.location}</p>
         </div>
       </div>
 
-      <div className="border-b border-[var(--line)] bg-navy text-paper">
-        <div className="mx-auto flex max-w-6xl items-center justify-between gap-4 px-4 py-3 sm:px-6 lg:px-8">
-          <Link href="/" className="min-w-0" onClick={() => setOpen(false)}>
-            <p className="font-display text-lg leading-tight sm:text-xl">
-              {SCHOOL.name}
-            </p>
-            <p className="text-[10px] uppercase tracking-[0.18em] text-cyan-soft sm:text-xs">
-              {SCHOOL.location}
-            </p>
+      <div className="border-b border-white/10 bg-navy/95 text-paper backdrop-blur-md">
+        <div className="mx-auto flex max-w-6xl items-center justify-between gap-4 px-4 py-3.5 sm:px-6 lg:px-8">
+          <Link
+            href="/"
+            className="flex min-w-0 items-center gap-3"
+            onClick={() => setOpen(false)}
+          >
+            <BrandMark tone="light" size="sm" />
+            <span className="min-w-0">
+              <span className="block font-display text-lg leading-tight sm:text-xl">
+                {SCHOOL.shortName}
+              </span>
+              <span className="block text-[10px] uppercase tracking-[0.2em] text-cyan-soft sm:text-[11px]">
+                Basic School · Afrancho
+              </span>
+            </span>
           </Link>
 
-          <nav className="hidden items-center gap-1 lg:flex">
+          <nav className="hidden items-center gap-0.5 lg:flex">
             <Link
               href="/"
               className={cn(
-                "rounded-md px-3 py-2 text-sm font-medium transition",
+                "rounded-lg px-3 py-2 text-sm font-medium transition",
                 pathname === "/"
-                  ? "bg-white/15 text-paper"
+                  ? "bg-white/12 text-paper"
                   : "text-sky hover:bg-white/10 hover:text-paper"
               )}
             >
@@ -83,9 +81,9 @@ export function SiteHeader() {
                   key={link.href}
                   href={link.href}
                   className={cn(
-                    "rounded-md px-3 py-2 text-sm font-medium transition",
+                    "rounded-lg px-3 py-2 text-sm font-medium transition",
                     active
-                      ? "bg-white/15 text-paper"
+                      ? "bg-white/12 text-paper"
                       : "text-sky hover:bg-white/10 hover:text-paper"
                   )}
                 >
@@ -93,17 +91,8 @@ export function SiteHeader() {
                 </Link>
               );
             })}
-            <Link
-              href="/portal"
-              className="ml-2 rounded-md bg-cyan px-3 py-2 text-sm font-semibold text-navy-deep transition hover:bg-cyan-soft"
-            >
+            <Link href="/portal" className="btn-cyan ml-3 !py-2 !px-3.5">
               Portals
-            </Link>
-            <Link
-              href="/dashboard"
-              className="rounded-md px-3 py-2 text-sm font-medium text-cyan-soft transition hover:text-paper"
-            >
-              Staff office
             </Link>
           </nav>
 
@@ -135,27 +124,20 @@ export function SiteHeader() {
                   className={cn(
                     "rounded-xl px-3 py-3 text-sm font-medium",
                     pathname === link.href
-                      ? "bg-white/15 text-paper"
+                      ? "bg-white/12 text-paper"
                       : "text-sky hover:bg-white/10"
                   )}
                 >
                   {link.label}
                 </Link>
               ))}
-            <Link
-              href="/portal"
-              onClick={() => setOpen(false)}
-              className="mt-2 rounded-xl bg-cyan px-3 py-3 text-center text-sm font-semibold text-navy-deep"
-            >
-              Portals
-            </Link>
-            <Link
-              href="/dashboard"
-              onClick={() => setOpen(false)}
-              className="rounded-xl px-3 py-3 text-center text-sm font-medium text-cyan-soft"
-            >
-              Staff office
-            </Link>
+              <Link
+                href="/portal"
+                onClick={() => setOpen(false)}
+                className="btn-cyan mt-3 text-center"
+              >
+                Portals
+              </Link>
             </nav>
           </div>
         ) : null}

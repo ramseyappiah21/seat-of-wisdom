@@ -1,6 +1,6 @@
 "use client";
 
-import { Field, btnPrimary, btnSecondary, inputClass } from "@/components/ui";
+import { Field, inputClass } from "@/components/ui";
 import { SCHOOL } from "@/lib/types";
 import { useState, type FormEvent } from "react";
 
@@ -29,15 +29,15 @@ export function ContactForm({ mode = "enquire" }: { mode?: Mode }) {
 
   if (sent) {
     return (
-      <div className="rounded-2xl border border-[var(--line)] bg-sage/40 px-5 py-8 text-center animate-rise">
-        <p className="font-display text-2xl text-forest">Thank you</p>
-        <p className="mx-auto mt-2 max-w-md text-clay">
+      <div className="animate-rise border border-[var(--line)] bg-mist/70 px-6 py-10 text-center">
+        <p className="font-display text-2xl text-navy">Thank you</p>
+        <p className="mx-auto mt-2 max-w-md text-sm leading-relaxed text-clay">
           We have received your {mode === "visit" ? "visit request" : "enquiry"}.
           Our team will respond at {SCHOOL.admissionsEmail}.
         </p>
         <button
           type="button"
-          className={`${btnSecondary} mt-5`}
+          className="btn-outline mt-6"
           onClick={() => setSent(false)}
         >
           Send another
@@ -49,14 +49,14 @@ export function ContactForm({ mode = "enquire" }: { mode?: Mode }) {
   return (
     <form
       onSubmit={onSubmit}
-      className="rounded-2xl border border-[var(--line)] bg-white/70 p-5 shadow-[var(--shadow)] sm:p-6"
+      className="border border-[var(--line)] bg-white p-6 sm:p-8"
     >
       <h3 className="font-display text-2xl text-ink">{titles[mode]}</h3>
       <p className="mt-1 text-sm text-clay">
         Academic year {SCHOOL.academicYear} · {SCHOOL.location}
       </p>
 
-      <div className="mt-5 grid gap-4 sm:grid-cols-2">
+      <div className="mt-6 grid gap-4 sm:grid-cols-2">
         <Field label="Your name">
           <input
             required
@@ -131,8 +131,8 @@ export function ContactForm({ mode = "enquire" }: { mode?: Mode }) {
         </Field>
       </div>
 
-      <button type="submit" className={`${btnPrimary} mt-5`}>
-        {mode === "visit" ? "Request a visit" : "Submit"}
+      <button type="submit" className="btn-navy mt-6">
+        {mode === "visit" ? "Request a visit" : "Submit enquiry"}
       </button>
     </form>
   );

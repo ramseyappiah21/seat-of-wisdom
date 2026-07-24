@@ -1,6 +1,6 @@
 @import "tailwindcss";
 
-/* Brand from seatofwisdomschool.com.free — Afrancho, Kumasi */
+/* Seat of Wisdom — Afrancho, Kumasi */
 :root {
   --ink: #0a1628;
   --navy: #0b3d7a;
@@ -15,12 +15,11 @@
   --danger: #b42318;
   --warn: #b54708;
   --ok: #067647;
-  --line: rgba(11, 61, 122, 0.14);
-  --shadow: 0 18px 50px rgba(6, 38, 72, 0.14);
+  --line: rgba(11, 61, 122, 0.12);
+  --shadow: 0 20px 48px rgba(6, 38, 72, 0.12);
   --background: var(--paper);
   --foreground: var(--ink);
 
-  /* Aliases used across existing components */
   --forest: var(--navy);
   --forest-deep: var(--navy-deep);
   --moss: var(--blue);
@@ -68,9 +67,7 @@ body {
   min-height: 100vh;
   color: var(--ink);
   background:
-    radial-gradient(1200px 600px at 10% -10%, rgba(0, 173, 239, 0.18), transparent 55%),
-    radial-gradient(900px 500px at 100% 0%, rgba(11, 61, 122, 0.14), transparent 50%),
-    linear-gradient(180deg, #eef6fc 0%, #f7fbfe 45%, #e8f3fb 100%);
+    linear-gradient(180deg, #f2f8fc 0%, var(--paper) 28%, #eef5fa 100%);
   font-family: var(--font-figtree), system-ui, sans-serif;
 }
 
@@ -79,7 +76,7 @@ h2,
 h3,
 .font-display {
   font-family: var(--font-fraunces), Georgia, serif;
-  letter-spacing: -0.02em;
+  letter-spacing: -0.025em;
 }
 
 a {
@@ -101,7 +98,7 @@ textarea {
 @keyframes rise-in {
   from {
     opacity: 0;
-    transform: translateY(18px);
+    transform: translateY(16px);
   }
   to {
     opacity: 1;
@@ -118,6 +115,15 @@ textarea {
   }
 }
 
+@keyframes ken-burns {
+  from {
+    transform: scale(1);
+  }
+  to {
+    transform: scale(1.06);
+  }
+}
+
 @keyframes draw-line {
   from {
     transform: scaleX(0);
@@ -128,11 +134,15 @@ textarea {
 }
 
 .animate-rise {
-  animation: rise-in 0.7s cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation: rise-in 0.75s cubic-bezier(0.22, 1, 0.36, 1) both;
 }
 
 .animate-fade {
-  animation: soft-fade 0.6s ease both;
+  animation: soft-fade 0.7s ease both;
+}
+
+.animate-ken {
+  animation: ken-burns 18s ease-out forwards;
 }
 
 .animate-underline {
@@ -141,23 +151,23 @@ textarea {
 }
 
 .delay-1 {
-  animation-delay: 0.1s;
+  animation-delay: 0.12s;
 }
 
 .delay-2 {
-  animation-delay: 0.2s;
+  animation-delay: 0.24s;
 }
 
 .delay-3 {
-  animation-delay: 0.35s;
+  animation-delay: 0.38s;
 }
 
 .delay-4 {
-  animation-delay: 0.5s;
+  animation-delay: 0.52s;
 }
 
 .surface {
-  background: rgba(247, 251, 254, 0.9);
+  background: rgba(247, 251, 254, 0.92);
   border: 1px solid var(--line);
   backdrop-filter: blur(10px);
 }
@@ -171,10 +181,85 @@ textarea {
   pointer-events: none;
   position: absolute;
   inset: 0;
-  opacity: 0.28;
-  background-image: radial-gradient(rgba(10, 22, 40, 0.08) 0.6px, transparent 0.6px);
+  opacity: 0.22;
+  background-image: radial-gradient(
+    rgba(10, 22, 40, 0.07) 0.55px,
+    transparent 0.55px
+  );
   background-size: 3px 3px;
   mix-blend-mode: multiply;
+}
+
+.btn-cyan {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 0.65rem;
+  background: var(--cyan);
+  padding: 0.8rem 1.35rem;
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--navy-deep);
+  transition: background 0.2s ease, transform 0.2s ease;
+}
+
+.btn-cyan:hover {
+  background: var(--cyan-soft);
+}
+
+.btn-ghost-light {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 0.65rem;
+  border: 1px solid rgba(255, 255, 255, 0.32);
+  background: rgba(255, 255, 255, 0.08);
+  padding: 0.8rem 1.35rem;
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--paper);
+  backdrop-filter: blur(8px);
+  transition: background 0.2s ease;
+}
+
+.btn-ghost-light:hover {
+  background: rgba(255, 255, 255, 0.16);
+}
+
+.btn-navy {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 0.65rem;
+  background: var(--navy);
+  padding: 0.8rem 1.35rem;
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--paper);
+  transition: background 0.2s ease;
+}
+
+.btn-navy:hover {
+  background: var(--navy-deep);
+}
+
+.btn-outline {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 0.65rem;
+  border: 1px solid var(--line);
+  background: white;
+  padding: 0.8rem 1.35rem;
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--navy);
+  transition: background 0.2s ease, border-color 0.2s ease;
+}
+
+.btn-outline:hover {
+  background: var(--mist);
+  border-color: rgba(11, 61, 122, 0.28);
 }
 
 @media print {

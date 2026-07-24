@@ -1,60 +1,69 @@
 import {
+  AdmissionsBand,
   ContentWrap,
-  ExploreCard,
+  ExploreLink,
   SectionHeading,
 } from "@/components/marketing/MarketingUI";
 import { SCHOOL } from "@/lib/types";
 import Link from "next/link";
+
+const HERO_IMAGE =
+  "https://images.unsplash.com/photo-1509062522246-3755977927d7?auto=format&fit=crop&w=2200&q=80";
+
+const values = [
+  { title: "Hard work", text: "Every pupil is encouraged to give their best." },
+  { title: "Respect", text: "We honour pupils, teachers, and families alike." },
+  {
+    title: "Care",
+    text: "A safe, welcoming place where young learners thrive.",
+  },
+  {
+    title: "Teamwork",
+    text: "Teachers and parents growing each child together.",
+  },
+];
 
 export default function HomePage() {
   return (
     <div>
       <section className="relative min-h-[88vh] overflow-hidden">
         <div
-          className="absolute inset-0 bg-cover bg-center"
+          className="animate-ken absolute inset-0 bg-cover bg-center"
           style={{
-            backgroundImage:
-              "linear-gradient(105deg, rgba(6,38,72,0.92) 0%, rgba(11,61,122,0.72) 48%, rgba(0,173,239,0.35) 100%), url('https://images.unsplash.com/photo-1509062522246-3755977927d7?auto=format&fit=crop&w=2000&q=80')",
+            backgroundImage: `linear-gradient(108deg, rgba(6,38,72,0.93) 0%, rgba(11,61,122,0.7) 46%, rgba(0,173,239,0.32) 100%), url('${HERO_IMAGE}')`,
           }}
         />
         <div className="grain absolute inset-0" />
-        <div className="relative z-10 mx-auto flex min-h-[88vh] max-w-6xl flex-col justify-center px-4 py-20 sm:px-6 lg:px-8">
-          <p className="animate-rise text-xs font-semibold uppercase tracking-[0.28em] text-cyan-soft sm:text-sm">
-            {SCHOOL.name} · {SCHOOL.location}
+        <div className="relative z-10 mx-auto flex min-h-[88vh] max-w-6xl flex-col justify-end px-4 pb-16 pt-28 sm:px-6 sm:pb-20 lg:px-8 lg:pb-24">
+          <p className="animate-rise font-display text-4xl leading-[1.05] text-paper sm:text-5xl md:text-6xl lg:text-7xl">
+            {SCHOOL.shortName}
           </p>
-          <h1 className="animate-rise delay-1 mt-4 max-w-3xl font-display text-4xl leading-[1.08] text-paper sm:text-5xl lg:text-6xl">
-            Welcome to Seat of Wisdom School
+          <h1 className="animate-rise delay-1 mt-4 max-w-2xl text-lg font-medium leading-snug text-cyan-soft sm:text-xl md:text-2xl">
+            {SCHOOL.tagline}
           </h1>
-          <p className="animate-rise delay-2 mt-5 max-w-xl text-base leading-relaxed text-sky sm:text-lg">
-            A caring basic school in Afrancho, Kumasi — Nursery through JHS,
-            where every child is guided with excellence and heart.
+          <p className="animate-rise delay-2 mt-4 max-w-lg text-base leading-relaxed text-sky sm:text-lg">
+            A caring basic school in Afrancho, Kumasi — Nursery through JHS.
           </p>
-          <div className="animate-rise delay-3 mt-8 flex flex-wrap gap-3">
-            <Link
-              href="/admissions"
-              className="rounded-xl bg-cyan px-6 py-3 text-sm font-semibold text-navy-deep transition hover:bg-cyan-soft"
-            >
+          <div className="animate-rise delay-3 mt-9 flex flex-wrap gap-3">
+            <Link href="/admissions" className="btn-cyan">
               Enquire online
             </Link>
-            <Link
-              href="/contact"
-              className="rounded-xl border border-white/30 bg-white/10 px-6 py-3 text-sm font-semibold text-paper backdrop-blur transition hover:bg-white/18"
-            >
+            <Link href="/contact" className="btn-ghost-light">
               Schedule a visit
             </Link>
           </div>
         </div>
       </section>
 
-      <section className="border-b border-[var(--line)] bg-white/60">
+      <section className="border-b border-[var(--line)] bg-white/70">
         <ContentWrap>
-          <div className="grid items-center gap-10 lg:grid-cols-2">
+          <div className="grid gap-12 lg:grid-cols-[1.1fr_0.9fr] lg:items-end">
             <SectionHeading
               eyebrow="About us"
-              title={SCHOOL.tagline}
-              description={`${SCHOOL.name} serves families in ${SCHOOL.area}, Kumasi with a child-friendly environment grounded in hard work, respect, and teamwork.`}
+              title={`Excellence in education is our essence`}
+              description={`${SCHOOL.name} serves families in ${SCHOOL.area} with a child-friendly environment grounded in hard work, respect, and teamwork.`}
             />
-            <div className="animate-rise delay-1 space-y-4">
+            <div className="animate-rise delay-1">
               <p className="text-clay leading-relaxed">
                 From Nursery and Kindergarten through Primary and Junior High,
                 our teachers walk with every pupil — academically, morally, and
@@ -62,11 +71,20 @@ export default function HomePage() {
               </p>
               <Link
                 href="/about"
-                className="inline-flex text-sm font-semibold text-blue transition hover:text-navy"
+                className="mt-5 inline-flex text-sm font-semibold text-blue transition hover:text-navy"
               >
                 About Seat of Wisdom →
               </Link>
             </div>
+          </div>
+
+          <div className="mt-16 grid gap-8 border-t border-[var(--line)] pt-12 sm:grid-cols-2 lg:grid-cols-4">
+            {values.map((v) => (
+              <div key={v.title} className="animate-rise">
+                <p className="font-display text-xl text-ink">{v.title}</p>
+                <p className="mt-2 text-sm leading-relaxed text-clay">{v.text}</p>
+              </div>
+            ))}
           </div>
         </ContentWrap>
       </section>
@@ -75,83 +93,33 @@ export default function HomePage() {
         <ContentWrap>
           <SectionHeading
             eyebrow="Explore"
-            title="Engage. Learn. Connect."
-            description="Discover how we teach, what is happening on campus, and life at our Afrancho school."
+            title="Life at our Afrancho campus"
+            description="Learn how we teach, what’s happening this term, and how to join our community."
           />
-          <div className="mt-10 grid gap-5 md:grid-cols-3">
-            <ExploreCard
+          <div className="mt-10 border-t border-[var(--line)]">
+            <ExploreLink
               href="/academics"
               title="Academics"
               description="GES-aligned pathways from Nursery to JHS — inquiry, creativity, and strong foundations."
               cta="Explore academics"
             />
-            <ExploreCard
+            <ExploreLink
               href="/news"
               title="Updates"
               description="School programmes, celebrations, and term news from our Kumasi community."
               cta="View updates"
             />
-            <ExploreCard
-              href="/about"
-              title="Our campus"
-              description="A welcoming learning environment for pupils and families in Afrancho."
-              cta="Learn more"
+            <ExploreLink
+              href="/admissions"
+              title="Admissions"
+              description={`Applications open for the ${SCHOOL.academicYear} academic year.`}
+              cta="Start an enquiry"
             />
           </div>
         </ContentWrap>
       </section>
 
-      <section className="bg-navy text-paper">
-        <div className="mx-auto flex max-w-6xl flex-col items-start justify-between gap-6 px-4 py-14 sm:px-6 lg:flex-row lg:items-center lg:px-8">
-          <div>
-            <p className="text-xs font-semibold uppercase tracking-[0.22em] text-cyan-soft">
-              Admissions
-            </p>
-            <h2 className="font-display mt-2 text-3xl sm:text-4xl">
-              {SCHOOL.tagline}
-            </h2>
-            <p className="mt-2 max-w-xl text-sky">
-              Now accepting applications for the {SCHOOL.academicYear} academic
-              year.
-            </p>
-          </div>
-          <div className="flex flex-wrap gap-3">
-            <Link
-              href="/admissions"
-              className="rounded-xl bg-cyan px-5 py-3 text-sm font-semibold text-navy-deep transition hover:bg-cyan-soft"
-            >
-              Enquire online
-            </Link>
-            <Link
-              href="/contact"
-              className="rounded-xl border border-white/30 px-5 py-3 text-sm font-semibold text-paper transition hover:bg-white/10"
-            >
-              Schedule a visit
-            </Link>
-          </div>
-        </div>
-      </section>
-
-      <section className="border-t border-[var(--line)]">
-        <ContentWrap>
-          <div className="flex flex-col items-start justify-between gap-6 rounded-2xl border border-[var(--line)] bg-mist/80 px-6 py-8 sm:flex-row sm:items-center sm:px-8">
-            <div>
-              <h2 className="font-display text-2xl text-ink sm:text-3xl">
-                Explore. Engage. Connect.
-              </h2>
-              <p className="mt-2 text-clay">
-                Come and see learning life at Seat of Wisdom School, Afrancho.
-              </p>
-            </div>
-            <Link
-              href="/contact"
-              className="rounded-xl bg-navy px-5 py-3 text-sm font-semibold text-paper transition hover:bg-navy-deep"
-            >
-              Schedule a visit
-            </Link>
-          </div>
-        </ContentWrap>
-      </section>
+      <AdmissionsBand />
     </div>
   );
 }

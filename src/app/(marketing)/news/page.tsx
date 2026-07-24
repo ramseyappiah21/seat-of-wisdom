@@ -1,10 +1,10 @@
 import {
+  AdmissionsBand,
   ContentWrap,
   PageHero,
   SectionHeading,
 } from "@/components/marketing/MarketingUI";
 import { SCHOOL } from "@/lib/types";
-import Link from "next/link";
 
 const posts = [
   {
@@ -37,7 +37,7 @@ export default function NewsPage() {
   return (
     <div>
       <PageHero
-        eyebrow="News & Events"
+        eyebrow="News & events"
         title="School life at Seat of Wisdom"
         description="Programmes, celebrations, and updates from our basic school community in Afrancho, Kumasi."
       />
@@ -48,34 +48,26 @@ export default function NewsPage() {
           description={`Stay connected with ${SCHOOL.shortName} throughout the ${SCHOOL.academicYear} academic year.`}
         />
 
-        <div className="mt-10 grid gap-5 md:grid-cols-2">
+        <div className="mt-12 divide-y divide-[var(--line)] border-y border-[var(--line)]">
           {posts.map((post) => (
-            <article
-              key={post.title}
-              className="rounded-2xl border border-[var(--line)] bg-white/70 p-6 transition hover:border-moss/40"
-            >
-              <p className="text-xs font-semibold uppercase tracking-[0.16em] text-moss">
+            <article key={post.title} className="grid gap-3 py-8 sm:grid-cols-[9rem_1fr] sm:gap-10">
+              <p className="text-xs font-semibold uppercase tracking-[0.16em] text-blue">
                 {post.date}
               </p>
-              <h3 className="font-display mt-2 text-xl text-ink">{post.title}</h3>
-              <p className="mt-3 text-sm leading-relaxed text-clay">{post.excerpt}</p>
+              <div>
+                <h3 className="font-display text-xl text-ink sm:text-2xl">
+                  {post.title}
+                </h3>
+                <p className="mt-3 text-sm leading-relaxed text-clay sm:text-base">
+                  {post.excerpt}
+                </p>
+              </div>
             </article>
           ))}
         </div>
-
-        <div className="mt-12 rounded-2xl border border-dashed border-[var(--line)] bg-mist/50 px-6 py-8 text-center">
-          <p className="font-display text-xl text-ink">Want to visit on an open day?</p>
-          <p className="mt-2 text-sm text-clay">
-            Schedule a campus tour and meet our teachers.
-          </p>
-          <Link
-            href="/contact"
-            className="mt-5 inline-flex rounded-xl bg-forest px-5 py-3 text-sm font-semibold text-paper transition hover:bg-forest-deep"
-          >
-            Schedule a visit
-          </Link>
-        </div>
       </ContentWrap>
+
+      <AdmissionsBand />
     </div>
   );
 }

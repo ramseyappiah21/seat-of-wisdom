@@ -25,46 +25,50 @@ export default function AdmissionsPage() {
   return (
     <div>
       <PageHero
-        eyebrow="Admissions"
-        title={`Now accepting applications for ${SCHOOL.academicYear}`}
-        description="Deciding on the right school is an important choice. We welcome new families with open arms into our Bronkong community."
+        eyebrow={`Admissions · ${SCHOOL.academicYear}`}
+        title="Join the Seat of Wisdom family"
+        description="Deciding on the right school is an important choice. We welcome new families into our Afrancho community with open arms."
       />
 
       <ContentWrap>
-        <div className="grid gap-12 lg:grid-cols-[1.1fr_0.9fr]">
+        <div className="grid gap-14 lg:grid-cols-[1.1fr_0.9fr]">
           <div>
             <SectionHeading
               title="How to join us"
               description="A clear pathway from first enquiry to first day of school."
             />
-            <ol className="mt-8 space-y-4">
+            <ol className="mt-10 space-y-0 border-t border-[var(--line)]">
               {steps.map((step, i) => (
                 <li
                   key={step}
-                  className="flex gap-4 rounded-xl border border-[var(--line)] bg-white/60 px-4 py-4"
+                  className="flex gap-5 border-b border-[var(--line)] py-5"
                 >
-                  <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-forest text-sm font-semibold text-paper">
-                    {i + 1}
+                  <span className="font-display text-2xl text-cyan tabular-nums">
+                    {String(i + 1).padStart(2, "0")}
                   </span>
-                  <p className="text-sm leading-relaxed text-ink pt-1">{step}</p>
+                  <p className="pt-1 text-sm leading-relaxed text-ink sm:text-base">
+                    {step}
+                  </p>
                 </li>
               ))}
             </ol>
 
-            <div className="mt-10">
-              <h3 className="font-display text-xl text-ink">Documents required</h3>
-              <ul className="mt-4 space-y-2 text-sm text-clay">
+            <div className="mt-12">
+              <h3 className="font-display text-xl text-ink">
+                Documents required
+              </h3>
+              <ul className="mt-5 space-y-3 text-sm text-clay">
                 {docs.map((d) => (
-                  <li key={d} className="flex gap-2">
-                    <span className="text-moss">•</span>
+                  <li key={d} className="flex gap-3">
+                    <span className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-cyan" />
                     {d}
                   </li>
                 ))}
               </ul>
-              <p className="mt-4 text-sm text-clay">
+              <p className="mt-6 text-sm text-clay">
                 Questions? Email{" "}
                 <a
-                  className="font-semibold text-forest hover:underline"
+                  className="font-semibold text-navy hover:underline"
                   href={`mailto:${SCHOOL.admissionsEmail}`}
                 >
                   {SCHOOL.admissionsEmail}
