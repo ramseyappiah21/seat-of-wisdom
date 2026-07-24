@@ -527,7 +527,7 @@ export default function TeacherPortalPage() {
 
   if (!teacher) {
     return (
-      <div className="min-h-[70vh] bg-mist/40">
+      <div className="min-h-[70vh]">
         <div className="mx-auto max-w-md px-4 py-14 sm:px-6">
           <Link href="/portal" className="text-sm font-semibold text-navy hover:underline">
             ← All portals
@@ -574,7 +574,7 @@ export default function TeacherPortalPage() {
 
   if (!teachingClasses.length && !homeroomClass) {
     return (
-      <div className="min-h-[70vh] bg-mist/40">
+      <div className="min-h-[70vh]">
         <div className="mx-auto max-w-lg px-4 py-14 sm:px-6">
           <h1 className="font-display text-3xl text-ink">
             {fullName(teacher.firstName, teacher.lastName)}
@@ -592,7 +592,7 @@ export default function TeacherPortalPage() {
   }
 
   return (
-    <div className="min-h-[70vh] bg-mist/40">
+    <div className="min-h-[70vh]">
       <div className="mx-auto max-w-7xl px-4 py-10 sm:px-6 lg:px-8">
         <div className="flex flex-wrap items-start justify-between gap-4">
           <div>

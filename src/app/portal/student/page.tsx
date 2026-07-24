@@ -3,7 +3,7 @@ import { SCHOOL } from "@/lib/types";
 
 export default function StudentPortalHome() {
   return (
-    <div className="min-h-[70vh] bg-mist/40">
+    <div className="min-h-[70vh]">
       <div className="mx-auto max-w-4xl px-4 py-14 sm:px-6 lg:px-8">
         <Link href="/portal" className="text-sm font-semibold text-navy hover:underline">
           ← All portals
