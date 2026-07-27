@@ -1,6 +1,7 @@
 "use client";
 
 import { Badge, Field, btnPrimary, btnSecondary, inputClass } from "@/components/ui";
+import { TerminalReportTemplatePanel } from "@/components/TerminalReportTemplatePanel";
 import {
   clearTeacherSession,
   getTeacherSession,
@@ -962,6 +963,13 @@ export default function TeacherPortalPage() {
                       ? subjectsReceived.join(", ")
                       : "none yet"}
                   </p>
+                </div>
+
+                <div className="mt-6">
+                  <TerminalReportTemplatePanel
+                    classLevel={homeroomClass}
+                    onMessage={setMessage}
+                  />
                 </div>
 
                 <h3 className="mt-8 font-display text-lg text-ink">

@@ -1,5 +1,8 @@
 "use client";
 
+import { EditPupilModal } from "@/components/EditPupilModal";
+import { HeadmasterNav } from "@/components/HeadmasterNav";
+import { TerminalReportTemplatePanel } from "@/components/TerminalReportTemplatePanel";
 import {
   Field,
   PageHeader,
@@ -7,8 +10,6 @@ import {
   btnSecondary,
   inputClass,
 } from "@/components/ui";
-import { EditPupilModal } from "@/components/EditPupilModal";
-import { HeadmasterNav } from "@/components/HeadmasterNav";
 import {
   clearHeadSession,
   hasHeadSession,
@@ -307,6 +308,13 @@ export default function HeadmasterClassPupilsPage() {
             {flash}
           </p>
         ) : null}
+
+        <div className="mb-6">
+          <TerminalReportTemplatePanel
+            classLevel={classLevel}
+            onMessage={setFlash}
+          />
+        </div>
 
         <div className="mb-6 grid gap-4 lg:grid-cols-2">
           <section className="rounded-2xl border border-[var(--line)] bg-white p-5">

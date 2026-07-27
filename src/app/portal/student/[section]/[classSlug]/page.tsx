@@ -6,8 +6,10 @@ import {
   getStudentSession,
   saveStudentSession,
 } from "@/lib/portal-auth";
+import { getClassReportTemplate } from "@/lib/report-templates";
 import { useSiteConfig } from "@/lib/site-config-provider";
 import { useSchool } from "@/lib/store";
+import { downloadFilledTerminalReport } from "@/lib/terminal-report";
 import {
   classesForSection,
   slugToClass,
@@ -38,6 +40,8 @@ export default function StudentClassPortalPage() {
   const [confirmPassword, setConfirmPassword] = useState("");
   const [pwdMessage, setPwdMessage] = useState("");
   const [pwdError, setPwdError] = useState("");
+  const [reportMessage, setReportMessage] = useState("");
+  const [hasTemplate, setHasTemplate] = useState(false);
 
   useEffect(() => {
     const session = getStudentSession();
@@ -59,6 +63,14 @@ export default function StudentClassPortalPage() {
     if (!student) return [];
     return results.filter((r) => r.studentId === student.id && r.published);
   }, [results, student]);
+
+  useEffect(() => {
+    if (!classLevel) {
+      setHasTemplate(false);
+      return;
+    }
+    setHasTemplate(Boolean(getClassReportTemplate(classLevel)));
+  }, [classLevel, studentId, myResults.length]);
 
   const publishedStandings = useMemo(() => {
     const groups = new Map<
@@ -126,6 +138,29 @@ export default function StudentClassPortalPage() {
     setConfirmPassword("");
     setPwdMessage("");
     setPwdError("");
+    setReportMessage("");
+  }
+
+  function downloadTerminalReport() {
+    if (!student || !classLevel) return;
+    setReportMessage("");
+    try {
+      downloadFilledTerminalReport({
+        student,
+        publishedResults: myResults,
+        meta: {
+          schoolName: config.name,
+          academicYear: config.academicYear,
+        },
+        classLevel,
+      });
+      setReportMessage("Terminal report downloaded.");
+      setHasTemplate(Boolean(getClassReportTemplate(classLevel)));
+    } catch (err) {
+      setReportMessage(
+        err instanceof Error ? err.message : "Could not create terminal report."
+      );
+    }
   }
 
   function changePassword(e: React.FormEvent) {
@@ -184,11 +219,46 @@ export default function StudentClassPortalPage() {
                   Print results
                 </button>
               ) : null}
+              {myResults.length > 0 ? (
+                <button
+                  type="button"
+                  className={btnSecondary}
+                  disabled={!hasTemplate}
+                  title={
+                    hasTemplate
+                      ? "Download your filled Word terminal report"
+                      : "Your school has not uploaded a terminal report template for this class yet"
+                  }
+                  onClick={downloadTerminalReport}
+                >
+                  Download terminal report
+                </button>
+              ) : null}
               <button type="button" className={btnSecondary} onClick={logout}>
                 Log out
               </button>
             </div>
           </div>
+
+          {reportMessage ? (
+            <p
+              className={`mt-4 rounded-xl px-4 py-3 text-sm print:hidden ${
+                reportMessage.toLowerCase().includes("could not") ||
+                reportMessage.toLowerCase().includes("no ")
+                  ? "border border-red-200 bg-red-50 text-red-900"
+                  : "border border-cyan/30 bg-sky/50 text-navy"
+              }`}
+            >
+              {reportMessage}
+            </p>
+          ) : null}
+
+          {myResults.length > 0 && !hasTemplate ? (
+            <p className="mt-3 text-sm text-clay print:hidden">
+              Terminal report download will appear once your school uploads a
+              .docx template for {classLevel}.
+            </p>
+          ) : null}
 
           {myResults.length === 0 ? (
             <div className="mt-8 rounded-2xl border border-dashed border-[var(--line)] bg-white px-6 py-12 text-center print:hidden">
